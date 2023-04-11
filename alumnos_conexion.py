@@ -4,7 +4,7 @@ class Alumnos:
 
     def __init__(self):
         self.cnn = mysql.connector.connect(host="localhost", user="root", 
-        passwd="pass", database="bd_control")
+        passwd="elchidoabiu10", database="bd_control")
 
     def __str__(self):
         datos=self.consulta_alumnos()

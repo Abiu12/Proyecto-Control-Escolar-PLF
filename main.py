@@ -4,14 +4,15 @@ from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from alumnos_conexion import Alumnos
+from administrativos_conexion import Administrativos
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QBrush, QColor
-from PyQt5.QtWidgets import QGridLayout
+from PyQt5.QtWidgets import QGridLayout, QTableWidget,QTableWidgetItem,QAbstractItemView,QLineEdit,QFormLayout,QMessageBox
 
 class Interface1(QWidget):
 
     alumnos = Alumnos()
-
+    
     def __init__(self):
         super().__init__()
         self.resize(1200, 800)
@@ -156,7 +157,7 @@ class InterfaceAdministrativos(QWidget):
         # Crear un layout vertical para colocar la cuadrícula y el layout horizontal del botón de regresar
         vbox_layout = QVBoxLayout()
         vbox_layout.addWidget(title)
-        vbox_layout.addSpacing(20)
+        vbox_layout.addSpacing(150)
         vbox_layout.addLayout(grid_layout)
         vbox_layout.addStretch(1)
         vbox_layout.addLayout(hbox_layout)
@@ -190,23 +191,155 @@ class InterfazControlEstudiantes(QWidget):
         super().__init__()
         self.resize(1200, 800)
         self.initUI()
-
+        
+    
+    administrativos = Administrativos() #Conexion con administrativos
+    
     def initUI(self):
-        self.label_docentes = QLabel('Interfaz Control Estudiantes')
+        #Label de alumnos
+        title = QLabel("Lista de alumnos")
+        title.setAlignment(Qt.AlignCenter)
+        title.setStyleSheet("font-size: 24px; font-weight: bold;")
+        
+        #Boton de inscribir alumno
+        self.btnInscribirAlumno= QPushButton('Inscribir alumno')
+        self.btnInscribirAlumno.setStyleSheet("background-color: #4CAF50; color: #fff; padding: 10px 20px; border-radius: 5px; font-size: 16px;")
+        self.btnInscribirAlumno.clicked.connect(self.show_interface_inscripcion_alumno)
+
+        # Crear la tabla Alumnos con los encabezados
+        self.tablaAlumnos = QTableWidget()
+        self.tablaAlumnos.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
+        self.cargar_datos()
+        
+        #Boton de regreso
         self.btnRegresarMenuAdmin = QPushButton('Volver a Menu de Administrativos')
         self.btnRegresarMenuAdmin.setStyleSheet("background-color: #4CAF50; color: #fff; padding: 10px 20px; border-radius: 5px; font-size: 16px;")
         self.btnRegresarMenuAdmin.clicked.connect(self.show_interface_menu_administrativo)
 
+        #Distribucion
         vbox = QVBoxLayout()
-        vbox.addWidget(self.label_docentes)
-        vbox.addWidget(self.btnRegresarMenuAdmin)
 
+        vbox.addWidget(title)
+
+        #Layout para el boton a la derecha de inscribir alumno
+        hbox_layout_btnAlumno = QHBoxLayout()
+        hbox_layout_btnAlumno.addStretch(1)
+        hbox_layout_btnAlumno.addWidget(self.btnInscribirAlumno)
+        vbox.addLayout(hbox_layout_btnAlumno)
+
+        vbox.addWidget(self.tablaAlumnos)
+
+        #Layout para el boton a la derecha de regresar
+        hbox_layout = QHBoxLayout()
+        hbox_layout.addStretch(1)
+        hbox_layout.addWidget(self.btnRegresarMenuAdmin)
+        
+        vbox.addLayout(hbox_layout)
         self.setLayout(vbox)
+
+    def cargar_datos(self):
+        #Cargamos los datos de los alumnos de la bd a la tabla
+        administrativos = Administrativos() #Nueva conexion
+        datos = administrativos.consulta_alumnos()
+        self.tablaAlumnos.setColumnCount(3) # Creamos las columnas necesarias para todos los datos
+        self.tablaAlumnos.setHorizontalHeaderLabels(["Id","Nombre", "Apellido"])
+        self.tablaAlumnos.setRowCount(len(datos))
+        #Rellenamos la tabla con los datos
+        for i, fila in  enumerate(datos):
+            id = QTableWidgetItem(str(fila[0]))
+            nombre = QTableWidgetItem(fila[1])
+            apellido = QTableWidgetItem(fila[2])
+            self.tablaAlumnos.setItem(i,0,id)
+            self.tablaAlumnos.setItem(i,1,nombre)
+            self.tablaAlumnos.setItem(i,2,apellido)
 
     def show_interface_menu_administrativo(self):
         self.interface_administrativos = InterfaceAdministrativos()
         self.interface_administrativos.show()
         self.hide()
+    def show_interface_inscripcion_alumno(self):
+        self.interface_inscripcion_alumno = InterfaceInscripcionAlumno()
+        self.interface_inscripcion_alumno.show()
+        self.hide()
+
+class InterfaceInscripcionAlumno(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.resize(1200, 800)
+        self.initUI()
+        
+    administrativos = Administrativos() #Conexion con administrativos
+
+    def initUI(self):
+        
+        #Label de inscripcion de alumnos
+        title = QLabel("Inscripción de un alumno")
+        title.setAlignment(Qt.AlignCenter)
+        title.setStyleSheet("font-size: 24px; font-weight: bold;")
+
+        #Campos del formulario
+        nombre_label = QLabel("Nombre:")
+        self.nombre_input = QLineEdit()
+        apellido_label = QLabel("Apellido:")
+        self.apellido_input = QLineEdit()
+
+       
+        #Botón para guardar los datos
+        guardar_btn = QPushButton("Guardar")
+        guardar_btn.setStyleSheet("background-color: #4CAF50; color: #fff; padding: 10px 20px; border-radius: 5px; font-size: 16px;")
+        guardar_btn.clicked.connect(self.inscribirAlumno)
+
+        #Boton para regresar a control estudiantes
+        self.btnRegresarMenuAdmin = QPushButton('Volver a Control de estudiantes')
+        self.btnRegresarMenuAdmin.setStyleSheet("background-color: #4CAF50; color: #fff; padding: 10px 20px; border-radius: 5px; font-size: 16px;")
+        self.btnRegresarMenuAdmin.clicked.connect(self.show_interface_control_estudiante)
+        
+        # Crear un diseño vertical para los campos de entrada de texto 
+        vbox = QVBoxLayout()
+        vbox.addWidget(title)
+
+        vbox.addWidget(nombre_label)
+        hbox_nombre = QHBoxLayout()
+        hbox_nombre.addWidget(self.nombre_input)
+        vbox.addLayout(hbox_nombre)
+
+        vbox.addWidget(apellido_label)
+        hbox_apellido = QHBoxLayout()
+        hbox_apellido.addWidget(self.apellido_input)
+        vbox.addLayout(hbox_apellido)
+
+        #Layout de botones
+        button_layout = QHBoxLayout()
+        button_layout.addStretch(1)
+        button_layout.addWidget(guardar_btn)
+        button_layout.addWidget(self.btnRegresarMenuAdmin)
+        
+        vbox.addLayout(button_layout)
+
+        self.setLayout(vbox)
+
+    def show_interface_control_estudiante(self):
+        self.interface_control_estudiante = InterfazControlEstudiantes()
+        self.interface_control_estudiante.show()
+        self.hide()
+    
+    def inscribirAlumno(self):
+        # Conectar la señal textChanged de los campos de entrada de texto a una función
+        nombre = self.nombre_input.text()
+        apellido = self.apellido_input.text()
+        if(nombre == "" or apellido == ""):
+            QMessageBox.critical(self, "Error", "Rellenar todos los campos")
+        resultado = self.administrativos.inserta_alumno(nombre,apellido)
+        if resultado:
+            QMessageBox.information(self, "Éxito", "Alumno insertado correctamente")
+            self.interface_control_estudiante = InterfazControlEstudiantes()
+            self.interface_control_estudiante.show()
+            self.hide()
+        else:
+            QMessageBox.critical(self, "Error", "No se pudo insertar el alumno")
+       
+
 
 class InterfazControlDocentes(QWidget):
     def __init__(self):

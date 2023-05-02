@@ -2,7 +2,7 @@
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QFrame, QLabel, QLineEdit, QPushButton, QApplication, QMessageBox,QGridLayout,QHBoxLayout
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QFrame, QLabel, QLineEdit, QPushButton, QMessageBox, QTableWidget, QTableWidgetItem,QHeaderView
 from PyQt5.QtCore import Qt,QRect
-import Docentes.conexion as conexion
+import  conexion
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPalette,QColor
 

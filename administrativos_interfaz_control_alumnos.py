@@ -1,4 +1,5 @@
 
+
 from PyQt5.QtWidgets import  QWidget, QMessageBox,QFrame, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTableWidget,QTableWidgetItem,QAbstractItemView,QWidget
 from administrativos_conexion import Administrativos
 from PyQt5.QtCore import Qt, QRect
@@ -9,6 +10,7 @@ import administrativos_interfaz_inscripcion_alumno
 import administrativos_interfaz_principal
 import administrativos_interfaz_editar_alumno
 import administrativos_interfaz_ver_reporte_alumno
+import administrativos_interfaz_ver_reporte_baja_alumno
 
 class InterfazControlAlumnos(QWidget):
     def __init__(self):
@@ -44,9 +46,9 @@ class InterfazControlAlumnos(QWidget):
         self.cargar_datos()
         
         #Boton de regreso
-        self.btnRegresarMenuAdmin = QPushButton('Volver a menú administrativo')
-        # icono_regresar = QIcon('img/flecha-izquierda.png')
-        # self.btnRegresarMenuAdmin.setIcon(icono_regresar)
+        self.btnRegresarMenuAdmin = QPushButton()
+        icono_regresar = QIcon('img/flecha-izquierda.png')
+        self.btnRegresarMenuAdmin.setIcon(icono_regresar)
         aplicar_estilo_volver(self.btnRegresarMenuAdmin,"#FF5733")
         self.btnRegresarMenuAdmin.clicked.connect(self.show_interface_menu_administrativo)
 
@@ -75,8 +77,8 @@ class InterfazControlAlumnos(QWidget):
         #Cargamos los datos de los alumnos de la bd a la tabla
         administrativos = Administrativos() #Nueva conexion
         datos = administrativos.consulta_alumnos()
-        self.tablaAlumnos.setColumnCount(23) # Creamos las columnas necesarias para todos los datos
-        self.tablaAlumnos.setHorizontalHeaderLabels(["Id","Nombre", "Primer apellido","Segundo apellido","Calle","Numero","Colonia","Municipio","Telefono","Numero IMSS","INE","CURP","RFC","Madre","Télefono madre","Padre","Teléfono padre","Usuario","Contraseña","Documentación","Acción","Acción","Reporte"])
+        self.tablaAlumnos.setColumnCount(22) # Creamos las columnas necesarias para todos los datos
+        self.tablaAlumnos.setHorizontalHeaderLabels(["Id","Nombre", "Primer apellido","Segundo apellido","Calle","Numero","Colonia","Municipio","Telefono","Numero IMSS","INE","CURP","RFC","Madre","Télefono madre","Padre","Teléfono padre","Usuario","Contraseña","Documentación","Reporte datos","Reporte baja"])
         header = self.tablaAlumnos.horizontalHeader()
         header.setStretchLastSection(True)
         self.tablaAlumnos.setRowCount(len(datos))
@@ -132,37 +134,50 @@ class InterfazControlAlumnos(QWidget):
             btn_documentacion.setObjectName('documentacion_' + str(row))
             btn_documentacion.clicked.connect(self.show_interface_documentacion_alumno)
             self.tablaAlumnos.setCellWidget(row, 19, btn_documentacion)
-            #Editar
-            btn_editar = QPushButton()
-            icono_editar = QIcon('img/editar.png')
-            btn_editar.setIcon(icono_editar)
-            btn_editar.setObjectName('documentacion_' + str(row))
-            btn_editar.clicked.connect(self.show_interface_editar_alumno)
-            self.tablaAlumnos.setCellWidget(row, 20, btn_editar)
+            # #Editar
+            # btn_editar = QPushButton()
+            # icono_editar = QIcon('img/editar.png')
+            # btn_editar.setIcon(icono_editar)
+            # btn_editar.setObjectName('documentacion_' + str(row))
+            # btn_editar.clicked.connect(self.show_interface_editar_alumno)
+            # self.tablaAlumnos.setCellWidget(row, 20, btn_editar)
+            
             #Borrar
-            btn_borrar = QPushButton()
-            icono_borrar = QIcon('img/borrar.png')
-            btn_borrar.setIcon(icono_borrar)
-            btn_borrar.setObjectName('baja_' + str(row))
-            btn_borrar.clicked.connect(self.borrar_fila)
-            self.tablaAlumnos.setCellWidget(row, 21, btn_borrar)
+            # btn_borrar = QPushButton()
+            # icono_borrar = QIcon('img/borrar.png')
+            # btn_borrar.setIcon(icono_borrar)
+            # btn_borrar.setObjectName('baja_' + str(row))
+            # btn_borrar.clicked.connect(self.borrar_fila)
+            # self.tablaAlumnos.setCellWidget(row, 21, btn_borrar)
 
-            #Reporte
+            #Reporte datos
             administrativos = Administrativos()
-            btn_notificacion = QPushButton()
+            btn_notificacion_datos = QPushButton()
             id_alumno = self.tablaAlumnos.item(row, 0).text()
-
-            reporte = administrativos.buscar_notificacion_reporte(id_alumno)
-
-            if(reporte):
+            reporte_datos = administrativos.buscar_notificacion_reporte(id_alumno)
+            if(reporte_datos):
                 icono_notificacion = QIcon('img/activo.png')
-                btn_notificacion.clicked.connect(self.ver_notificacion)
+                btn_notificacion_datos.clicked.connect(self.ver_notificacion)
             else:
                 icono_notificacion = QIcon('img/notificacion.png')
-            btn_notificacion.setIcon(icono_notificacion)
-            btn_notificacion.setObjectName('baja_' + str(row))
-            self.tablaAlumnos.setCellWidget(row, 22, btn_notificacion)
+            btn_notificacion_datos.setIcon(icono_notificacion)
+            btn_notificacion_datos.setObjectName('baja_' + str(row))
+            self.tablaAlumnos.setCellWidget(row, 20, btn_notificacion_datos)
 
+            #Reporte baja
+
+            #administrativos = Administrativos()
+            btn_notificacion_baja = QPushButton()
+            # id_alumno = self.tablaAlumnos.item(row, 0).text()
+            reporte_baja = administrativos.buscar_notificacion_baja(id_alumno)
+            if(reporte_baja):
+                icono_notificacion_baja = QIcon('img/activo.png')
+                btn_notificacion_baja.clicked.connect(self.ver_notificacion_baja)
+            else:
+                icono_notificacion_baja = QIcon('img/notificacion.png')
+            btn_notificacion_baja.setIcon(icono_notificacion_baja)
+            btn_notificacion_baja.setObjectName('baja_' + str(row))
+            self.tablaAlumnos.setCellWidget(row, 21, btn_notificacion_baja)
             
     def ver_notificacion(self):
         boton = self.sender()
@@ -172,24 +187,34 @@ class InterfazControlAlumnos(QWidget):
         self.interface_notificacion.show()
         self.close()
     
-    def borrar_fila(self):
-        administrativos = Administrativos()
+    def ver_notificacion_baja(self):
         boton = self.sender()
         fila = int(boton.objectName().split('_')[1])
         id_alumno = self.tablaAlumnos.item(fila, 0).text()  # Suponiendo que el ID está en la primera columna
+        self.interface_notificacion = administrativos_interfaz_ver_reporte_baja_alumno.InterfazVerReporteBajaAlumno(id_alumno)
+        self.interface_notificacion.show()
+        self.close()
 
-        # Agregar cuadro de mensaje de confirmación
-        mensaje_box = QMessageBox()
-        mensaje_box.setWindowTitle("Confirmación")
-        mensaje_box.setText("¿Está seguro de que desea dar de baja a este alumno?")
-        mensaje_box.setIcon(QMessageBox.Warning)
-        mensaje_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        resultado = mensaje_box.exec_()
 
-        if resultado == QMessageBox.Yes:
-            self.tablaAlumnos.removeRow(fila)
-            administrativos.elimina_alumno(id_alumno)
-            self.cargar_datos()
+    
+    # def borrar_fila(self):
+    #     administrativos = Administrativos()
+    #     boton = self.sender()
+    #     fila = int(boton.objectName().split('_')[1])
+    #     id_alumno = self.tablaAlumnos.item(fila, 0).text()  # Suponiendo que el ID está en la primera columna
+
+    #     # Agregar cuadro de mensaje de confirmación
+    #     mensaje_box = QMessageBox()
+    #     mensaje_box.setWindowTitle("Confirmación")
+    #     mensaje_box.setText("¿Está seguro de que desea dar de baja a este alumno?")
+    #     mensaje_box.setIcon(QMessageBox.Warning)
+    #     mensaje_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+    #     resultado = mensaje_box.exec_()
+
+    #     if resultado == QMessageBox.Yes:
+    #         self.tablaAlumnos.removeRow(fila)
+    #         administrativos.elimina_alumno(id_alumno)
+    #         self.cargar_datos()
     
     def show_interface_documentacion_alumno(self):
         #Obtenemos el id del alumno para traer sus documentos
@@ -200,14 +225,14 @@ class InterfazControlAlumnos(QWidget):
         self.interface_documentacion.show()
         self.close()
     
-    def show_interface_editar_alumno(self):
-        #Obtenemos el id del alumno para traer sus datos
-        boton = self.sender()
-        fila = int(boton.objectName().split('_')[1])
-        id_alumno = self.tablaAlumnos.item(fila, 0).text()
-        self.interface_editar_alumno = administrativos_interfaz_editar_alumno.InterfaceEditarAlumno(id_alumno)
-        self.interface_editar_alumno.show()
-        self.close()
+    # def show_interface_editar_alumno(self):
+    #     #Obtenemos el id del alumno para traer sus datos
+    #     boton = self.sender()
+    #     fila = int(boton.objectName().split('_')[1])
+    #     id_alumno = self.tablaAlumnos.item(fila, 0).text()
+    #     self.interface_editar_alumno = administrativos_interfaz_editar_alumno.InterfaceEditarAlumno(id_alumno,"")
+    #     self.interface_editar_alumno.show()
+    #     self.close()
 
     def show_interface_menu_administrativo(self):
         self.interface_administrativos = administrativos_interfaz_principal.InterfazAdministrativo()
@@ -249,7 +274,7 @@ def aplicar_estilo_volver(boton,color):
         background-color: {color};
         border-radius: 25px;
         padding: 10px 20px;
-        min-width: 325px;
+        min-width: 60px;
         min-height: 40px;
     }}
     QPushButton:hover {{

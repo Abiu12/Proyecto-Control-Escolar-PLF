@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QPalette, QBrush, QColor
 import sys
 import img
-
+#3
 import administrativos_interfaz_control_alumnos
 import administrativos_interfaz_control_docentes
 # import administrativos_interfaz_nomina

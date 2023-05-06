@@ -46,7 +46,9 @@ class InterfaceDocumentacionDocente(QWidget):
         self.cargar_datos_documentos();
 
         #Boton de regresar
-        self.btn_regresar_control_docentes = QPushButton('Volver a control docentes')
+        self.btn_regresar_control_docentes = QPushButton('')
+        icono_regresar = QIcon('img/flecha-izquierda.png')
+        self.btn_regresar_control_docentes.setIcon(icono_regresar)
         aplicar_estilo_volver(self.btn_regresar_control_docentes,"#FF5733")
         self.btn_regresar_control_docentes.clicked.connect(self.show_interface_control_docentes)
 
@@ -186,7 +188,7 @@ def aplicar_estilo_volver(boton,color):
         background-color: {color};
         border-radius: 25px;
         padding: 10px 20px;
-        min-width: 320px;
+        min-width: 60px;
         min-height: 40px;
     }}
     QPushButton:hover {{

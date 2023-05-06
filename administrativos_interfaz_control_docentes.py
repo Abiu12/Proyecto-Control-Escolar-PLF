@@ -43,9 +43,9 @@ class InterfazControlDocentes(QWidget):
         self.cargar_datos()
         
         #Boton de regreso
-        self.btnRegresarMenuAdmin = QPushButton('Volver a menú administrativo')
-        # icono_regresar = QIcon('img/flecha-izquierda.png')
-        # self.btnRegresarMenuAdmin.setIcon(icono_regresar)
+        self.btnRegresarMenuAdmin = QPushButton()
+        icono_regresar = QIcon('img/flecha-izquierda.png')
+        self.btnRegresarMenuAdmin.setIcon(icono_regresar)
         aplicar_estilo_volver(self.btnRegresarMenuAdmin,"#FF5733")
         self.btnRegresarMenuAdmin.clicked.connect(self.show_interfaz_menu_administrativo)
 
@@ -216,7 +216,7 @@ def aplicar_estilo_volver(boton,color):
         background-color: {color};
         border-radius: 25px;
         padding: 10px 20px;
-        min-width: 325px;
+        min-width: 60px;
         min-height: 40px;
     }}
     QPushButton:hover {{

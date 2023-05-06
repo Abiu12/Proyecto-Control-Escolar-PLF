@@ -9,11 +9,11 @@ class Administrativos:
 
     def __init__(self):
         self.cnn = mysql.connector.connect(
-            host="containers-us-west-202.railway.app", 
-            user="root",
-            passwd="XzLlfajzeTmUzaafbQue",
-            database="railway",
-            port = 7565,
+            host= "localhost",  #"containers-us-west-202.railway.app", 
+            user= "root", #"root",
+            passwd= "elchidoabiu10", #"XzLlfajzeTmUzaafbQue",
+            database= "bd_control",#"railway",
+            #port = 7565,
             auth_plugin='mysql_native_password'
             )
         
@@ -193,6 +193,14 @@ class Administrativos:
     def buscar_notificacion_reporte(self, id_alumno):
         cur = self.cnn.cursor()
         sql= "SELECT * FROM reporte_correccion_datos WHERE idAlumno = {}".format(int(id_alumno))
+        cur.execute(sql)
+        datos = cur.fetchone()
+        cur.close()    
+        return datos
+    
+    def buscar_notificacion_baja(self, id_alumno):
+        cur = self.cnn.cursor()
+        sql= "SELECT * FROM reporte_baja WHERE idAlumno = {}".format(int(id_alumno))
         cur.execute(sql)
         datos = cur.fetchone()
         cur.close()    

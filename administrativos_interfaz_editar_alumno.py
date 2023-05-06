@@ -1,7 +1,7 @@
 
 from PyQt5.QtWidgets import  QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,QSpacerItem,QSizePolicy,QGridLayout,QMessageBox,QWidget, QLineEdit
 from PyQt5.QtCore import Qt,QRect
-from PyQt5.QtGui import QPalette, QBrush, QColor
+from PyQt5.QtGui import QPalette, QBrush, QColor , QIcon
 
 import administrativos_conexion
 import administrativos_interfaz_control_alumnos
@@ -147,7 +147,9 @@ class InterfaceEditarAlumno(QWidget):
         guardar_btn.clicked.connect(self.editar_datos_alumno)
 
         #Boton para regresar a control estudiantes
-        self.btnRegresarMenuAdmin = QPushButton('Volver a Control de estudiantes')
+        self.btnRegresarMenuAdmin = QPushButton()
+        icono_regresar = QIcon('img/flecha-izquierda.png')
+        self.btnRegresarMenuAdmin.setIcon(icono_regresar)
         aplicar_estilo_volver(self.btnRegresarMenuAdmin,"#FF5733")
         self.btnRegresarMenuAdmin.clicked.connect(self.show_interface_control_estudiante)
         
@@ -273,7 +275,7 @@ def aplicar_estilo_guardar(boton,color):
         background-color: {color};
         border-radius: 25px;
         padding: 10px 20px;
-        min-width: 100;
+        min-width: 100px;
         min-height: 40px;
     }}
     QPushButton:hover {{
@@ -297,7 +299,7 @@ def aplicar_estilo_volver(boton,color):
         background-color: {color};
         border-radius: 25px;
         padding: 10px 20px;
-        min-width: 320px;
+        min-width: 60px;
         min-height: 40px;
     }}
     QPushButton:hover {{

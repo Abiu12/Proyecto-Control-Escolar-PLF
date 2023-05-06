@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import  QFrame,QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,QDialog,QFormLayout,QMessageBox,QWidget, QFileDialog, QComboBox
 from administrativos_conexion import Administrativos
 from PyQt5.QtCore import Qt, QRect
-from PyQt5.QtGui import QPalette, QBrush, QColor
+from PyQt5.QtGui import QPalette, QBrush, QColor, QIcon
 
 import administrativos_interfaz_documentacion_alumno
 
@@ -60,7 +60,9 @@ class InterfazAgregarDocumentacionAlumno(QWidget):
         btn_guardar_documento.clicked.connect(self.insertar_documento)
 
         #Boton para regresar a documentacion alumno
-        self.btn_regresar_documentacion_alumno = QPushButton('Volver a documentación del alumno')
+        self.btn_regresar_documentacion_alumno = QPushButton()
+        icono_regresar = QIcon('img/flecha-izquierda.png')
+        self.btn_regresar_documentacion_alumno.setIcon(icono_regresar)
         aplicar_estilo_volver(self.btn_regresar_documentacion_alumno,"#FF5733")
         self.btn_regresar_documentacion_alumno.clicked.connect(self.show_interface_documentacion_alumno)
 
@@ -144,7 +146,7 @@ def aplicar_estilo_volver(boton,color):
         background-color: {color};
         border-radius: 25px;
         padding: 10px 20px;
-        min-width: 350px;
+        min-width: 60px;
         min-height: 40px;
     }}
     QPushButton:hover {{

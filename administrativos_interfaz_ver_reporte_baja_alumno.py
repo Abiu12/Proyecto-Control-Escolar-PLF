@@ -1,11 +1,11 @@
-from PyQt5.QtWidgets import  QFrame,QWidget, QTextEdit,QVBoxLayout, QHBoxLayout, QLabel, QPushButton,QWidget
+from PyQt5.QtWidgets import  QFrame,QWidget, QMessageBox, QTextEdit,QVBoxLayout, QHBoxLayout, QLabel, QPushButton,QWidget
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QPalette, QBrush, QColor, QIcon
 from administrativos_conexion import Administrativos
 import administrativos_interfaz_control_alumnos
 import administrativos_interfaz_editar_alumno
 
-class InterfazVerReporteAlumno(QWidget):
+class InterfazVerReporteBajaAlumno(QWidget):
     id_alumno = "" #Variable para tener el id del alumno
     id_reporte = ""
     def __init__(self,idAlumno):
@@ -16,12 +16,12 @@ class InterfazVerReporteAlumno(QWidget):
     def initUI(self, idAlumno):
         self.id_alumno = idAlumno #Variable global
         administrativos = Administrativos()
-        reporte = administrativos.buscar_notificacion_reporte(idAlumno)
+        reporte = administrativos.buscar_notificacion_baja(idAlumno)
         alumno = administrativos.buscar_alumno(idAlumno)
         self.id_reporte = reporte[0]
 
         #Label de alumnos
-        title = QLabel(f"Reporte generado por  {alumno[1]} {alumno[2]}")
+        title = QLabel(f"Reporte de baja generado por  {alumno[1]} {alumno[2]}")
         title.setAlignment(Qt.AlignCenter)
         title.setStyleSheet("font-size: 24px; font-weight: bold;")
 
@@ -40,10 +40,10 @@ class InterfazVerReporteAlumno(QWidget):
         self.reporteTextEdit.setStyleSheet("font-size: 18pt")
         self.reporteTextEdit.setPlaceholderText(reporte[1])
 
-        #Boton para regresar a control estudiantes
-        self.btn_corregir_datos = QPushButton('Corregir datos')
-        aplicar_estilo_corregir(self.btn_corregir_datos,"#FF5733")
-        self.btn_corregir_datos.clicked.connect(self.show_interface_editar_alumno)
+        #Boton para eliminar
+        self.btn_eliminar_alumno = QPushButton('Dar de baja alumno')
+        aplicar_estilo_corregir(self.btn_eliminar_alumno,"#FF5733")
+        self.btn_eliminar_alumno.clicked.connect(self.eliminar_alumno)
 
         #Boton para regresar a control estudiantes
         self.btnRegresarMenuAdmin = QPushButton()
@@ -56,7 +56,7 @@ class InterfazVerReporteAlumno(QWidget):
 
         hbox_layout = QHBoxLayout()
         hbox_layout.addStretch(1)
-        hbox_layout.addWidget(self.btn_corregir_datos)
+        hbox_layout.addWidget(self.btn_eliminar_alumno)
         hbox_layout.addWidget(self.btnRegresarMenuAdmin)
         vbox.addWidget(title)
         vbox.addWidget(self.reporteTextEdit) # Agregar el QTextEdit al layout
@@ -67,11 +67,23 @@ class InterfazVerReporteAlumno(QWidget):
         self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos()
         self.interface_control_estudiante.show()
         self.close()
-    def show_interface_editar_alumno(self):
-        #Obtenemos el id del alumno para traer sus datos
-        self.interface_editar_alumno = administrativos_interfaz_editar_alumno.InterfaceEditarAlumno(self.id_alumno,self.id_reporte)
-        self.interface_editar_alumno.show()
-        self.close()
+    
+    def eliminar_alumno(self):
+        administrativos = Administrativos()
+        # Agregar cuadro de mensaje de confirmación
+        mensaje_box = QMessageBox()
+        mensaje_box.setWindowTitle("Confirmación")
+        mensaje_box.setText("¿Está seguro de que desea dar de baja a este alumno?")
+        mensaje_box.setIcon(QMessageBox.Warning)
+        mensaje_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        resultado = mensaje_box.exec_()
+
+        if resultado == QMessageBox.Yes:
+            administrativos.elimina_alumno(self.id_alumno)
+            self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos()
+            self.interface_control_estudiante.show()
+            self.close()
+
     
 def aplicar_estilo_corregir(boton,color):
     style = f"""

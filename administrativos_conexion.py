@@ -154,6 +154,17 @@ class Administrativos:
         datos = cur.fetchone()
         cur.close()    
         return datos
+
+    def editar_docente(self,nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,idDocente):
+        cur = self.cnn.cursor()
+        sql='''UPDATE docentes SET nombre='{}', primer_apellido='{}', segundo_apellido='{}',
+        calle='{}',numero='{}',colonia='{}',municipio='{}',telefono='{}',numero_imss='{}',ine='{}',
+        curp='{}',rfc='{}' WHERE idDocente={}'''.format(nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,int(idDocente))
+        cur.execute(sql)
+        n=cur.rowcount
+        self.cnn.commit()    
+        cur.close()
+        return n 
       
     def consulta_documentacion_docente(self,id_docente):
         cur = self.cnn.cursor()

@@ -1,7 +1,7 @@
 
 from PyQt5.QtWidgets import  QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,QSpacerItem,QSizePolicy,QGridLayout,QMessageBox,QWidget, QLineEdit
-from PyQt5.QtCore import Qt,QRect
-from PyQt5.QtGui import QPalette, QBrush, QColor, QIcon
+from PyQt5.QtCore import Qt,QRect,QRegExp
+from PyQt5.QtGui import QPalette, QBrush, QColor, QIcon, QRegExpValidator
 
 import administrativos_conexion
 import administrativos_interfaz_control_docentes
@@ -41,11 +41,20 @@ class InterfaceEditarDocente(QWidget):
         #Agregamos titulo
         campos_layout.addWidget(title, 0, 1, 1, 2, Qt.AlignHCenter | Qt.AlignTop)
 
+        #Validaciones
+        regex_solo_letras = QRegExp("[a-zA-Z ]*")
+        regex_solo_numeros = QRegExp("^\d{0,10}$")
+        regex_numero_social= QRegExp("[0-9]{0,11}")
+        regex_ine= QRegExp("[0-9]{0,13}")
+        regex_curp = QRegExp("[A-Z]{4}[0-9]{6}[A-Z]{6}")
+        regex_rfc = QRegExp("[A-Z]{4}[0-9]{6}[A-Z0-9]{3}")
+
         #Campos del formulario
         nombre_label = QLabel("Nombre:")
         aplicar_estilo_label(nombre_label)
         self.nombre_input = QLineEdit()
         self.nombre_input.setText(datos_docente[1])
+        self.validar(regex_solo_letras,self.nombre_input)
         aplicar_estilo_input(self.nombre_input)
 
 
@@ -53,12 +62,14 @@ class InterfaceEditarDocente(QWidget):
         aplicar_estilo_label(primer_apellido_label)
         self.primer_apellido_input = QLineEdit()
         self.primer_apellido_input.setText(datos_docente[2])
+        self.validar(regex_solo_letras,self.primer_apellido_input)
         aplicar_estilo_input(self.primer_apellido_input)
 
         segundo_apellido_label = QLabel("Segundo apellido:")
         aplicar_estilo_label(segundo_apellido_label)
         self.segundo_apellido_input = QLineEdit()
         self.segundo_apellido_input.setText(datos_docente[3])
+        self.validar(regex_solo_letras,self.segundo_apellido_input)
         aplicar_estilo_input(self.segundo_apellido_input)
 
         calle_label = QLabel("Calle:")
@@ -89,67 +100,50 @@ class InterfaceEditarDocente(QWidget):
         aplicar_estilo_label(telefono_label)
         self.telefono_input = QLineEdit()
         self.telefono_input.setText(datos_docente[8])
+        self.validar(regex_solo_numeros,self.telefono_input)
         aplicar_estilo_input(self.telefono_input)
         
         numero_imss_label = QLabel("Numero IMSS:")
         aplicar_estilo_label(numero_imss_label)
         self.numero_imss_input = QLineEdit()
         self.numero_imss_input.setText(datos_docente[9])
+        self.validar(regex_numero_social,self.numero_imss_input)
         aplicar_estilo_input(self.numero_imss_input)
         
         ine_label = QLabel("Ine:")
         aplicar_estilo_label(ine_label)
         self.ine_input = QLineEdit()
         self.ine_input.setText(datos_docente[10])
+        self.validar(regex_ine,self.ine_input)
         aplicar_estilo_input(self.ine_input)
         
         curp_label = QLabel("Curp:")
         aplicar_estilo_label(curp_label)
         self.curp_input = QLineEdit()
         self.curp_input.setText(datos_docente[11])
+        self.validar(regex_curp,self.curp_input)
         aplicar_estilo_input(self.curp_input)
         
         rfc_label = QLabel("Rfc:")
         aplicar_estilo_label(rfc_label)
         self.rfc_input = QLineEdit()
         self.rfc_input.setText(datos_docente[12])
+        self.validar(regex_rfc,self.rfc_input)
         aplicar_estilo_input(self.rfc_input)
         
-        nombre_madre_label = QLabel("Nombre madre:")
-        aplicar_estilo_label(nombre_madre_label)
-        self.nombre_madre_input = QLineEdit()
-        self.nombre_madre_input.setText(datos_docente[13])
-        aplicar_estilo_input(self.nombre_madre_input)
         
-        telefono_madre_label = QLabel("Teléfono madre:")
-        aplicar_estilo_label(telefono_madre_label)
-        self.telefono_madre_input = QLineEdit()
-        self.telefono_madre_input.setText(datos_docente[14])
-        aplicar_estilo_input(self.telefono_madre_input)
-        
-        nombre_padre_label = QLabel("Nombre padre:")
-        aplicar_estilo_label(nombre_padre_label)
-        self.nombre_padre_input = QLineEdit()
-        self.nombre_padre_input.setText(datos_docente[15])
-        aplicar_estilo_input(self.nombre_padre_input)
-        
-        telefono_padre_label = QLabel("Teléfono padre:")
-        aplicar_estilo_label(telefono_padre_label)
-        self.telefono_padre_input = QLineEdit()
-        self.telefono_padre_input.setText(datos_docente[16])
-        aplicar_estilo_input(self.telefono_padre_input)
         
         #Botón para guardar los datos
         guardar_btn = QPushButton("Editar datos")
         aplicar_estilo_guardar(guardar_btn,"#FF5733")
         guardar_btn.clicked.connect(self.editar_datos_docente)
 
-        #Boton para regresar a control estudiantes
+        #Boton para regresar a control docentes
         self.btnRegresarMenuAdmin = QPushButton()
         icono_regresar = QIcon('img/flecha-izquierda.png')
         self.btnRegresarMenuAdmin.setIcon(icono_regresar)
         aplicar_estilo_volver(self.btnRegresarMenuAdmin,"#FF5733")
-        self.btnRegresarMenuAdmin.clicked.connect(self.show_interface_control_estudiante)
+        self.btnRegresarMenuAdmin.clicked.connect(self.show_interface_control_docente)
         
         
         
@@ -189,17 +183,7 @@ class InterfaceEditarDocente(QWidget):
         campos_layout.addWidget(self.curp_input, 6, 2)  # fila 5, columna 2
         campos_layout.addWidget(self.rfc_input, 6, 3)  # fila 5, columna 3
 
-        #Septimo renglon
-        campos_layout.addWidget(nombre_madre_label, 7, 0)  # fila 6, columna 0
-        campos_layout.addWidget(telefono_madre_label, 7, 1)  # fila 6, columna 1
-        campos_layout.addWidget(nombre_padre_label, 7, 2)  # fila 6, columna 2
-        campos_layout.addWidget(telefono_padre_label, 7, 3)  # fila 6, columna 3
-
-        #Octavo renglon
-        campos_layout.addWidget(self.nombre_madre_input, 8, 0)  # fila 7, columna 0
-        campos_layout.addWidget(self.telefono_madre_input, 8, 1)  # fila 7, columna 1
-        campos_layout.addWidget(self.nombre_padre_input, 8, 2)  # fila 7, columna 2
-        campos_layout.addWidget(self.telefono_padre_input, 8, 3)  # fila 7, columna 3
+        
 
         
 
@@ -225,6 +209,10 @@ class InterfaceEditarDocente(QWidget):
         self.interface_control_docente.show()
         self.close()
     
+    def validar (self,regex_solo_letras, line_edit):
+        validator = QRegExpValidator(regex_solo_letras, line_edit)
+        line_edit.setValidator(validator)
+
     def editar_datos_docente(self):
         administrativos = administrativos_conexion.Administrativos() #Conexion con administrativos
         # Conectar la señal textChanged de los campos de entrada de texto a una función
@@ -248,7 +236,7 @@ class InterfaceEditarDocente(QWidget):
         if resultado:
             QMessageBox.information(self, "Éxito", "Docente editado correctamente")
             self.interface_control_docente = administrativos_interfaz_control_docentes.InterfazControlDocentes()
-            self.interface_control_estudiante.show()
+            self.interface_control_docente.show()
             self.close()
         else:
             QMessageBox.critical(self, "Error", "No se pudo editar el docente")

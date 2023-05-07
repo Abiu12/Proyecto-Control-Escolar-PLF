@@ -1,7 +1,7 @@
 
 from PyQt5.QtWidgets import  QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,QSpacerItem,QSizePolicy,QGridLayout,QMessageBox,QWidget, QLineEdit
-from PyQt5.QtCore import Qt,QRect
-from PyQt5.QtGui import QPalette, QBrush, QColor, QIcon
+from PyQt5.QtCore import Qt,QRect,QRegExp
+from PyQt5.QtGui import QPalette, QBrush, QColor, QIcon, QRegExpValidator
 
 import administrativos_conexion
 import administrativos_interfaz_control_docentes
@@ -35,20 +35,31 @@ class InterfaceAgregarDocente(QWidget):
         #Agregamos titulo
         campos_layout.addWidget(title, 0, 1, 1, 2, Qt.AlignHCenter | Qt.AlignTop)
 
+        #Validaciones
+        regex_solo_letras = QRegExp("[a-zA-Z ]*")
+        regex_solo_numeros = QRegExp("^\d{0,10}$")
+        regex_numero_social= QRegExp("[0-9]{0,11}")
+        regex_ine= QRegExp("[0-9]{0,13}")
+        regex_curp = QRegExp("[A-Z]{4}[0-9]{6}[A-Z]{6}")
+        regex_rfc = QRegExp("[A-Z]{4}[0-9]{6}[A-Z0-9]{3}")
+
         #Campos del formulario
         nombre_label = QLabel("Nombre:")
         aplicar_estilo_label(nombre_label)
         self.nombre_input = QLineEdit()
+        self.validar(regex_solo_letras,self.nombre_input)
         aplicar_estilo_input(self.nombre_input)
 
         primer_apellido_label = QLabel("Primer apellido:")
         aplicar_estilo_label(primer_apellido_label)
         self.primer_apellido_input = QLineEdit()
+        self.validar(regex_solo_letras,self.primer_apellido_input)
         aplicar_estilo_input(self.primer_apellido_input)
 
         segundo_apellido_label = QLabel("Segundo apellido:")
         aplicar_estilo_label(segundo_apellido_label)
         self.segundo_apellido_input = QLineEdit()
+        self.validar(regex_solo_letras,self.segundo_apellido_input)
         aplicar_estilo_input(self.segundo_apellido_input)
 
         calle_label = QLabel("Calle:")
@@ -74,26 +85,31 @@ class InterfaceAgregarDocente(QWidget):
         telefono_label = QLabel("Telefono:")
         aplicar_estilo_label(telefono_label)
         self.telefono_input = QLineEdit()
+        self.validar(regex_solo_numeros,self.telefono_input)
         aplicar_estilo_input(self.telefono_input)
         
         numero_imss_label = QLabel("Numero IMSS:")
         aplicar_estilo_label(numero_imss_label)
         self.numero_imss_input = QLineEdit()
+        self.validar(regex_numero_social,self.numero_imss_input)
         aplicar_estilo_input(self.numero_imss_input)
         
         ine_label = QLabel("Ine:")
         aplicar_estilo_label(ine_label)
         self.ine_input = QLineEdit()
+        self.validar(regex_ine,self.ine_input)
         aplicar_estilo_input(self.ine_input)
         
         curp_label = QLabel("Curp:")
         aplicar_estilo_label(curp_label)
         self.curp_input = QLineEdit()
+        self.validar(regex_curp,self.curp_input)
         aplicar_estilo_input(self.curp_input)
         
         rfc_label = QLabel("Rfc:")
         aplicar_estilo_label(rfc_label)
         self.rfc_input = QLineEdit()
+        self.validar(regex_rfc,self.rfc_input)
         aplicar_estilo_input(self.rfc_input)
         
         
@@ -172,6 +188,10 @@ class InterfaceAgregarDocente(QWidget):
         self.interface_control_estudiante.show()
         self.close()
     
+    def validar (self,regex_solo_letras, line_edit):
+        validator = QRegExpValidator(regex_solo_letras, line_edit)
+        line_edit.setValidator(validator)
+
     def agregar_docente(self):
         administrativos = administrativos_conexion.Administrativos() #Conexion con administrativos
         # Conectar la señal textChanged de los campos de entrada de texto a una función

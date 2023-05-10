@@ -225,3 +225,19 @@ class Administrativos:
         self.cnn.commit()    
         cur.close()
         return n 
+    
+    def busca_user_administrativo(self, users):
+        cur = self.cnn.cursor()
+        sql = "SELECT * FROM administrativos WHERE usuario = {}".format(users)
+        cur.execute(sql)
+        usersx = cur.fetchall()
+        cur.close()     
+        return usersx 
+
+    def busca_password_administrativo(self, password):
+        cur = self.cnn.cursor()
+        sql = "SELECT * FROM administrativos WHERE contrasenia = {}".format(password)
+        cur.execute(sql)
+        passwordx = cur.fetchall()
+        cur.close()     
+        return passwordx 

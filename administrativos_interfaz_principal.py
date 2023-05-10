@@ -11,7 +11,6 @@ import administrativos_interfaz_control_docentes
 # import administrativos_interfaz_eventos
 
 class InterfazAdministrativo(QMainWindow):
-    
     def __init__(self):
         super().__init__()
         self.setWindowTitle("VENTANA PRINCIPAL")
@@ -126,9 +125,9 @@ def aplicar_estilos(boton,color):
 
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ui = InterfazAdministrativo()
-    ui.show()
-    sys.exit(app.exec_())
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     ui = InterfazAdministrativo()
+#     ui.show()
+#     sys.exit(app.exec_())
 

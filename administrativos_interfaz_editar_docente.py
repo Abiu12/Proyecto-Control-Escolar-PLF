@@ -8,7 +8,8 @@ import administrativos_interfaz_control_docentes
 
 class InterfaceEditarDocente(QWidget):
     id_docente = ""
-    def __init__(self,id_docente):
+    def __init__(self,id_docente,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI(id_docente)
@@ -205,7 +206,7 @@ class InterfaceEditarDocente(QWidget):
         self.setLayout(vbox)
 
     def show_interface_control_docente(self):
-        self.interface_control_docente = administrativos_interfaz_control_docentes.InterfazControlDocentes()
+        self.interface_control_docente = administrativos_interfaz_control_docentes.InterfazControlDocentes(self.nombre_sesion)
         self.interface_control_docente.show()
         self.close()
     
@@ -235,7 +236,7 @@ class InterfaceEditarDocente(QWidget):
         resultado = administrativos.editar_docente(nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,self.id_docente)
         if resultado:
             QMessageBox.information(self, "Éxito", "Docente editado correctamente")
-            self.interface_control_docente = administrativos_interfaz_control_docentes.InterfazControlDocentes()
+            self.interface_control_docente = administrativos_interfaz_control_docentes.InterfazControlDocentes(self.nombre_sesion)
             self.interface_control_docente.show()
             self.close()
         else:

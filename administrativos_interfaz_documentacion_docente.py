@@ -11,7 +11,8 @@ import administrativos_interfaz_agregar_documentacion_docente
 
 class InterfaceDocumentacionDocente(QWidget):
     id_docente = "" #Variable global para tener presente en todo el programa el docente elegido
-    def __init__(self,id_docente):
+    def __init__(self,id_docente,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI(id_docente)
@@ -72,12 +73,12 @@ class InterfaceDocumentacionDocente(QWidget):
         self.setLayout(vbox)
 
     def show_interface_control_docentes(self):
-        self.interface_control_docentes = administrativos_interfaz_control_docentes.InterfazControlDocentes()
+        self.interface_control_docentes = administrativos_interfaz_control_docentes.InterfazControlDocentes(self.nombre_sesion)
         self.interface_control_docentes.show()
         self.close()
         
     def show_interface_agregar_documentacion(self):
-        self.interface_agregar_documentacion = administrativos_interfaz_agregar_documentacion_docente.InterfazAgregarDocumentacionDocente(self.id_docente)
+        self.interface_agregar_documentacion = administrativos_interfaz_agregar_documentacion_docente.InterfazAgregarDocumentacionDocente(self.id_docente,self.nombre_sesion)
         self.interface_agregar_documentacion.show()
         self.close()
 

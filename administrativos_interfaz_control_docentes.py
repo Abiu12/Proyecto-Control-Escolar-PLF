@@ -10,7 +10,8 @@ import administrativos_interfaz_principal
 import administrativos_interfaz_editar_docente
 
 class InterfazControlDocentes(QWidget):
-    def __init__(self):
+    def __init__(self,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI()
@@ -163,7 +164,7 @@ class InterfazControlDocentes(QWidget):
         boton = self.sender()
         fila = int(boton.objectName().split('_')[1])
         id_docente = self.tabla_docentes.item(fila, 0).text()
-        self.interface_documentacion = administrativos_interfaz_documentacion_docente.InterfaceDocumentacionDocente(id_docente)
+        self.interface_documentacion = administrativos_interfaz_documentacion_docente.InterfaceDocumentacionDocente(id_docente,self.nombre_sesion)
         self.interface_documentacion.show()
         self.close()
     
@@ -172,16 +173,16 @@ class InterfazControlDocentes(QWidget):
         boton = self.sender()
         fila = int(boton.objectName().split('_')[1])
         id_docente = self.tabla_docentes.item(fila, 0).text()
-        self.interface_editar_docente = administrativos_interfaz_editar_docente.InterfaceEditarDocente(id_docente)
+        self.interface_editar_docente = administrativos_interfaz_editar_docente.InterfaceEditarDocente(id_docente,self.nombre_sesion)
         self.interface_editar_docente.show()
         self.close()
 
     def show_interfaz_menu_administrativo(self):
-        self.interface_administrativos = administrativos_interfaz_principal.InterfazAdministrativo()
+        self.interface_administrativos = administrativos_interfaz_principal.InterfazAdministrativo(self.nombre_sesion)
         self.interface_administrativos.show()
         self.close()
     def show_interfaz_agregar_docente(self):
-        self.interface_agregar_docente = administrativos_interfaz_agregar_docente.InterfaceAgregarDocente()
+        self.interface_agregar_docente = administrativos_interfaz_agregar_docente.InterfaceAgregarDocente(self.nombre_sesion)
         self.interface_agregar_docente.show()
         self.close()
 

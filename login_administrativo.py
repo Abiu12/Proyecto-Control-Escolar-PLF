@@ -1,12 +1,14 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-
+import interfaz_principal
 
 class Ui_MainWindow(object):
+    
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
+        self.MainWindow = MainWindow
         MainWindow.resize(448, 523)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -145,7 +147,7 @@ class Ui_MainWindow(object):
                                               "")
         self.pushButton = QPushButton(self.frame)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(190, 490, 75, 23))
+        self.pushButton.setGeometry(QRect(190, 490, 85, 23))
         self.pushButton.setStyleSheet(u"QPushButton{\n"
                                       "border:0px;\n"
                                       "	font: 75 12pt \"MS Sans Serif\";\n"
@@ -169,10 +171,14 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.pushButton.clicked.connect(MainWindow.close)
+        self.pushButton.clicked.connect(self.show_interface_principal)
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
+    def show_interface_principal(self):
+        self.interface_principal = interfaz_principal.InterfazPrincipal()
+        self.MainWindow.close()
+        self.interface_principal.show()
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate(
@@ -194,5 +200,5 @@ class Ui_MainWindow(object):
         self.contrasena_incorrecta.setText("")
         self.usuario_incorrecto.setText("")
         self.pushButton.setText(
-            QCoreApplication.translate("MainWindow", u"Salir", None))
+            QCoreApplication.translate("MainWindow", u"Regresar", None))
     # retranslateUi

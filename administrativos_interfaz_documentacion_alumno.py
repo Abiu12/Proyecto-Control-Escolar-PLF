@@ -11,7 +11,8 @@ import administrativos_interfaz_agregar_documentacion_alumno
 
 class InterfaceDocumentacionAlumno(QWidget):
     idAlumno = "" #Variable global para tener presente en todo el programa el idAlumno
-    def __init__(self,id):
+    def __init__(self,id,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI(id)
@@ -72,12 +73,12 @@ class InterfaceDocumentacionAlumno(QWidget):
         self.setLayout(vbox)
 
     def show_interface_control_alumnos(self):
-        self.interface_control_alumnos = administrativos_interfaz_control_alumnos.InterfazControlAlumnos()
+        self.interface_control_alumnos = administrativos_interfaz_control_alumnos.InterfazControlAlumnos(self.nombre_sesion)
         self.interface_control_alumnos.show()
         self.close()
         
     def show_interface_agregar_documentacion(self):
-        self.interface_agregar_documentacion = administrativos_interfaz_agregar_documentacion_alumno.InterfazAgregarDocumentacionAlumno(self.idAlumno)
+        self.interface_agregar_documentacion = administrativos_interfaz_agregar_documentacion_alumno.InterfazAgregarDocumentacionAlumno(self.idAlumno,self.nombre_sesion)
         self.interface_agregar_documentacion.show()
         self.close()
 

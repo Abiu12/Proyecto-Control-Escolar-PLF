@@ -13,7 +13,8 @@ import administrativos_interfaz_ver_reporte_alumno
 import administrativos_interfaz_ver_reporte_baja_alumno
 
 class InterfazControlAlumnos(QWidget):
-    def __init__(self):
+    def __init__(self,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI()
@@ -183,7 +184,7 @@ class InterfazControlAlumnos(QWidget):
         boton = self.sender()
         fila = int(boton.objectName().split('_')[1])
         id_alumno = self.tablaAlumnos.item(fila, 0).text()  # Suponiendo que el ID está en la primera columna
-        self.interface_notificacion = administrativos_interfaz_ver_reporte_alumno.InterfazVerReporteAlumno(id_alumno)
+        self.interface_notificacion = administrativos_interfaz_ver_reporte_alumno.InterfazVerReporteAlumno(id_alumno,self.nombre_sesion)
         self.interface_notificacion.show()
         self.close()
     
@@ -191,7 +192,7 @@ class InterfazControlAlumnos(QWidget):
         boton = self.sender()
         fila = int(boton.objectName().split('_')[1])
         id_alumno = self.tablaAlumnos.item(fila, 0).text()  # Suponiendo que el ID está en la primera columna
-        self.interface_notificacion = administrativos_interfaz_ver_reporte_baja_alumno.InterfazVerReporteBajaAlumno(id_alumno)
+        self.interface_notificacion = administrativos_interfaz_ver_reporte_baja_alumno.InterfazVerReporteBajaAlumno(id_alumno,self.nombre_sesion)
         self.interface_notificacion.show()
         self.close()
 
@@ -221,7 +222,7 @@ class InterfazControlAlumnos(QWidget):
         boton = self.sender()
         fila = int(boton.objectName().split('_')[1])
         id_alumno = self.tablaAlumnos.item(fila, 0).text()
-        self.interface_documentacion = administrativos_interfaz_documentacion_alumno.InterfaceDocumentacionAlumno(id_alumno)
+        self.interface_documentacion = administrativos_interfaz_documentacion_alumno.InterfaceDocumentacionAlumno(id_alumno,self.nombre_sesion)
         self.interface_documentacion.show()
         self.close()
     
@@ -235,11 +236,11 @@ class InterfazControlAlumnos(QWidget):
     #     self.close()
 
     def show_interface_menu_administrativo(self):
-        self.interface_administrativos = administrativos_interfaz_principal.InterfazAdministrativo()
+        self.interface_administrativos = administrativos_interfaz_principal.InterfazAdministrativo(self.nombre_sesion)
         self.interface_administrativos.show()
         self.close()
     def show_interface_inscripcion_alumno(self):
-        self.interface_inscripcion_alumno = administrativos_interfaz_inscripcion_alumno.InterfaceInscripcionAlumno()
+        self.interface_inscripcion_alumno = administrativos_interfaz_inscripcion_alumno.InterfaceInscripcionAlumno(self.nombre_sesion)
         self.interface_inscripcion_alumno.show()
         self.close()
 

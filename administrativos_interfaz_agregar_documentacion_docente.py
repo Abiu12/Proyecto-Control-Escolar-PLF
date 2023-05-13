@@ -7,13 +7,14 @@ import administrativos_interfaz_documentacion_docente
 
 class InterfazAgregarDocumentacionDocente(QWidget):
     id_docente = "" #Variable para tener el id del docente
-    def __init__(self,id_docente):
+    
+    def __init__(self,id_docente,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI(id_docente)
            
     def initUI(self, id_docente):
-
         #Diseño del FRAME
         self.frame = QFrame(self)
         self.frame.setGeometry(QRect(0, 0, 1300, 800))
@@ -96,7 +97,7 @@ class InterfazAgregarDocumentacionDocente(QWidget):
             self.archivo_label.setText(self.archivo_path)
 
     def show_interface_documentacion_docente(self):
-        self.interface_documentacion_docente = administrativos_interfaz_documentacion_docente.InterfaceDocumentacionDocente(self.id_docente)
+        self.interface_documentacion_docente = administrativos_interfaz_documentacion_docente.InterfaceDocumentacionDocente(self.id_docente,self.nombre_sesion)
         self.interface_documentacion_docente.show()
         self.close()
     
@@ -112,7 +113,7 @@ class InterfazAgregarDocumentacionDocente(QWidget):
             resultado = administrativos.inserta_documento_docente(self.tipo_documento_combo.currentText(),archivo_bytes,self.id_docente)
             if resultado:
                 QMessageBox.information(self, "Éxito", "Documento agregado correctamente")
-                self.interface_documentacion_docente = administrativos_interfaz_documentacion_docente.InterfaceDocumentacionDocente(self.id_docente)
+                self.interface_documentacion_docente = administrativos_interfaz_documentacion_docente.InterfaceDocumentacionDocente(self.id_docente,self.nombre_sesion)
                 self.interface_documentacion_docente.show()
                 self.close()
             else:

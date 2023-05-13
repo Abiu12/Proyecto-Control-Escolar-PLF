@@ -7,7 +7,8 @@ import administrativos_conexion
 import administrativos_interfaz_control_alumnos
 
 class InterfaceInscripcionAlumno(QWidget):
-    def __init__(self):
+    def __init__(self,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI()
@@ -218,7 +219,7 @@ class InterfaceInscripcionAlumno(QWidget):
         self.setLayout(vbox)
 
     def show_interface_control_estudiante(self):
-        self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos()
+        self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos(self.nombre_sesion)
         self.interface_control_estudiante.show()
         self.close()
     
@@ -248,7 +249,7 @@ class InterfaceInscripcionAlumno(QWidget):
         resultado = administrativos.inserta_alumno(nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,nombre_madre,telefono_madre,nombre_padre,telefono_padre)
         if resultado:
             QMessageBox.information(self, "Éxito", "Alumno agregado correctamente")
-            self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos()
+            self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos(self.nombre_sesion)
             self.interface_control_estudiante.show()
             self.close()
         else:

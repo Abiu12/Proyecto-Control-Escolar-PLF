@@ -9,7 +9,8 @@ import administrativos_interfaz_control_alumnos
 class InterfaceEditarAlumno(QWidget):
     id_alumno = ""
     id_reporte = ""
-    def __init__(self,idAlumno,id_reporte):
+    def __init__(self,idAlumno,id_reporte,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI(idAlumno,id_reporte)
@@ -242,7 +243,7 @@ class InterfaceEditarAlumno(QWidget):
         self.setLayout(vbox)
 
     def show_interface_control_estudiante(self):
-        self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos()
+        self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos(self.nombre_sesion)
         self.interface_control_estudiante.show()
         self.close()
         
@@ -279,7 +280,7 @@ class InterfaceEditarAlumno(QWidget):
             QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
             if(self.id_reporte != ""):
                 administrativos.eliminar_notificacion_reporte(self.id_alumno,self.id_reporte)
-            self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos()
+            self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos(self.nombre_sesion)
             self.interface_control_estudiante.show()
             self.close()
         else:

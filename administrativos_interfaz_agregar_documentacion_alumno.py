@@ -7,7 +7,8 @@ import administrativos_interfaz_documentacion_alumno
 
 class InterfazAgregarDocumentacionAlumno(QWidget):
     idAlumno = "" #Variable para tener el id del alumno
-    def __init__(self,idAlumno):
+    def __init__(self,idAlumno,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI(idAlumno)
@@ -93,7 +94,7 @@ class InterfazAgregarDocumentacionAlumno(QWidget):
             self.archivo_label.setText(self.archivo_path)
 
     def show_interface_documentacion_alumno(self):
-        self.interface_documentacion_alumno = administrativos_interfaz_documentacion_alumno.InterfaceDocumentacionAlumno(self.idAlumno)
+        self.interface_documentacion_alumno = administrativos_interfaz_documentacion_alumno.InterfaceDocumentacionAlumno(self.idAlumno,self.nombre_sesion)
         self.interface_documentacion_alumno.show()
         self.close()
     
@@ -109,7 +110,7 @@ class InterfazAgregarDocumentacionAlumno(QWidget):
             resultado = administrativos.inserta_documento_alumno(self.tipo_documento_combo.currentText(),archivo_bytes,self.idAlumno)
             if resultado:
                 QMessageBox.information(self, "Éxito", "Documento agregado correctamente")
-                self.interface_documentacion_alumno = administrativos_interfaz_documentacion_alumno.InterfaceDocumentacionAlumno(self.idAlumno)
+                self.interface_documentacion_alumno = administrativos_interfaz_documentacion_alumno.InterfaceDocumentacionAlumno(self.idAlumno,self.nombre_sesion)
                 self.interface_documentacion_alumno.show()
                 self.close()
             else:

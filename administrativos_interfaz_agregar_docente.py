@@ -7,13 +7,15 @@ import administrativos_conexion
 import administrativos_interfaz_control_docentes
 
 class InterfaceAgregarDocente(QWidget):
-    def __init__(self):
+
+    def __init__(self,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI()
         
     def initUI(self):
-
+        
         #Frame para el fondo
         self.frame = QFrame(self)
         self.frame.setGeometry(QRect(0, 0, 1200, 800))
@@ -184,7 +186,7 @@ class InterfaceAgregarDocente(QWidget):
         self.setLayout(vbox)
 
     def show_interface_control_estudiante(self):
-        self.interface_control_estudiante = administrativos_interfaz_control_docentes.InterfazControlDocentes()
+        self.interface_control_estudiante = administrativos_interfaz_control_docentes.InterfazControlDocentes(self.nombre_sesion)
         self.interface_control_estudiante.show()
         self.close()
     
@@ -214,7 +216,7 @@ class InterfaceAgregarDocente(QWidget):
         resultado = administrativos.inserta_docente(nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc)
         if resultado:
             QMessageBox.information(self, "Éxito", "Docente agregado correctamente")
-            self.interface_control_docente = administrativos_interfaz_control_docentes.InterfazControlDocentes()
+            self.interface_control_docente = administrativos_interfaz_control_docentes.InterfazControlDocentes(self.nombre_sesion)
             self.interface_control_docente.show()
             self.close()
         else:

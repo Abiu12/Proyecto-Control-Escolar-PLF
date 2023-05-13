@@ -8,7 +8,8 @@ import administrativos_interfaz_editar_alumno
 class InterfazVerReporteAlumno(QWidget):
     id_alumno = "" #Variable para tener el id del alumno
     id_reporte = ""
-    def __init__(self,idAlumno):
+    def __init__(self,idAlumno,nombre_sesion):
+        self.nombre_sesion = nombre_sesion
         super().__init__()
         self.resize(1200, 800)
         self.initUI(idAlumno)
@@ -37,7 +38,8 @@ class InterfazVerReporteAlumno(QWidget):
         # Cuadro de texto para el reporte
         self.reporteTextEdit = QTextEdit()
         self.reporteTextEdit.setReadOnly(True)
-        self.reporteTextEdit.setStyleSheet("font-size: 18pt")
+        self.reporteTextEdit.setStyleSheet("QTextEdit { background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #e6e6e6, stop:1 #ffffff);"
+                                 "border: 1px solid #cccccc; border-radius: 5px; font-size: 18pt ; padding: 5px; }")
         self.reporteTextEdit.setPlaceholderText(reporte[1])
 
         #Boton para regresar a control estudiantes
@@ -64,12 +66,12 @@ class InterfazVerReporteAlumno(QWidget):
         self.setLayout(vbox)
 
     def show_interface_control_estudiante(self):
-        self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos()
+        self.interface_control_estudiante = administrativos_interfaz_control_alumnos.InterfazControlAlumnos(self.nombre_sesion)
         self.interface_control_estudiante.show()
         self.close()
     def show_interface_editar_alumno(self):
         #Obtenemos el id del alumno para traer sus datos
-        self.interface_editar_alumno = administrativos_interfaz_editar_alumno.InterfaceEditarAlumno(self.id_alumno,self.id_reporte)
+        self.interface_editar_alumno = administrativos_interfaz_editar_alumno.InterfaceEditarAlumno(self.id_alumno,self.id_reporte,self.nombre_sesion)
         self.interface_editar_alumno.show()
         self.close()
     

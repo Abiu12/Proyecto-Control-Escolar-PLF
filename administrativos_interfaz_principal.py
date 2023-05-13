@@ -1,22 +1,33 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFrame, QApplication
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFrame, QApplication,QMessageBox
 from PyQt5.QtCore import Qt, QRect
-from PyQt5.QtGui import QPalette, QBrush, QColor
+from PyQt5.QtGui import QPalette, QBrush, QColor , QIcon
 import sys
 import img
 #3
 import administrativos_interfaz_control_alumnos
 import administrativos_interfaz_control_docentes
+import interfaz_principal
+
 # import administrativos_interfaz_nomina
 # import administrativos_interfaz_eventos
 
 class InterfazAdministrativo(QMainWindow):
-    def __init__(self):
+    nombre_sesion = ""
+    def __init__(self,nombre_sesion):
         super().__init__()
+        self.nombre_sesion = nombre_sesion
         self.setWindowTitle("VENTANA PRINCIPAL")
         self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowCloseButtonHint)
         self.setFixedSize(1300, 700)
         self.setStyleSheet("")
+
+        #Diseño boton cerrar sesion
+        self.boton_cerrar_sesion = QPushButton(self)
+        icono_cerrar_sesion = QIcon('img/cerrar-sesion.png')
+        self.boton_cerrar_sesion.setIcon(icono_cerrar_sesion)
+        #self.boton_cerrar_sesion.setStyleSheet("QPushButton {font: 15pt \"SimSun\"; background-color: #FF5733; border-top-left-radius: 50px; font-weight: bold}" "QPushButton:hover {font: 17pt \"SimSun\"; background-color: #FF8C00; border-top-left-radius: 50px; font-weight: bold}" )
+        self.boton_cerrar_sesion.setGeometry(QRect(15, 15, 45, 45))
 
         #Diseño boton "control de alumnos":
         self.boton_ctrl_alumnos = QPushButton(self)    
@@ -68,6 +79,7 @@ class InterfazAdministrativo(QMainWindow):
         self.boton_ctrl_docentes.raise_()
         self.boton_nomina.raise_()
         self.boton_actividades.raise_()
+        self.boton_cerrar_sesion.raise_()
 
 
        #Otorgarle una accion a los botones:
@@ -75,6 +87,7 @@ class InterfazAdministrativo(QMainWindow):
         self.boton_ctrl_docentes.clicked.connect(self.show_interface_control_docentes)
         self.boton_nomina.clicked.connect(self.show_interface_nomina)
         self.boton_actividades.clicked.connect(self.show_interface_eventos)
+        self.boton_cerrar_sesion.clicked.connect(self.show_interface_login)
         self.retranslateUi()
 
     def retranslateUi(self):
@@ -83,15 +96,30 @@ class InterfazAdministrativo(QMainWindow):
         self.boton_ctrl_docentes.setText(_translate("Form", "Control docentes"))
         self.boton_nomina.setText(_translate("Form", "Nómina"))
         self.boton_actividades.setText(_translate("Form", "Actividades"))
-        self.texto_principal.setText(_translate("Form", "            BIENVENIDO AL SISTEMA ADMINISTRADOR"))
+        self.texto_principal.setText(_translate("Form", f"            BIENVENIDO AL SISTEMA {self.nombre_sesion}"))
 
     def show_interface_control_alumnos(self):
-        self.interface_control_alumnos = administrativos_interfaz_control_alumnos.InterfazControlAlumnos()
+        self.interface_control_alumnos = administrativos_interfaz_control_alumnos.InterfazControlAlumnos(self.nombre_sesion)
         self.interface_control_alumnos.show()
         self.close()
+    def show_interface_login(self):
+        # Agregar cuadro de mensaje de confirmación
+        mensaje_box = QMessageBox()
+        mensaje_box.setWindowTitle("Confirmación")
+        mensaje_box.setText("¿Está seguro de que desea cerrar sesión?")
+        mensaje_box.setIcon(QMessageBox.Warning)
+        mensaje_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        resultado = mensaje_box.exec_()
+
+        if resultado == QMessageBox.Yes:
+            self.interface_login = interfaz_principal.InterfazPrincipal()
+            self.interface_login.show()
+            self.close()
+            
+        
     def show_interface_control_docentes(self):
         pass
-        self.interface_control_docentes = administrativos_interfaz_control_docentes.InterfazControlDocentes()
+        self.interface_control_docentes = administrativos_interfaz_control_docentes.InterfazControlDocentes(self.nombre_sesion)
         self.interface_control_docentes.show()
         self.close()
     def show_interface_nomina(self):

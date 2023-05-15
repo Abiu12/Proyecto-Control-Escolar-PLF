@@ -126,18 +126,99 @@ class Administrativos:
         cur.close()
         return datos
     
-    def inserta_docente(self, nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc):
-        usuario = self.crear_usuario(nombre,primer_apellido,segundo_apellido)
+    def consulta_docentes_tipo(self,tipo):
+        cur = self.cnn.cursor()
+        sql = f"SELECT * FROM docentes where tipo_contrato = '{tipo}'"
+        cur.execute(sql)
+        datos = cur.fetchall()
+        cur.close()
+        return datos
+    
+    def consulta_administrativos_tipo(self,tipo):
+        cur = self.cnn.cursor()
+        sql = f"SELECT * FROM administrativos where tipo_contrato = '{tipo}'"
+        cur.execute(sql)
+        datos = cur.fetchall()
+        cur.close()
+        return datos
+    
+    def consulta_nomina_docente_base(self,id_docente):
+        cur = self.cnn.cursor()
+        sql = f"SELECT * FROM nomina_docente_base where idDocente = '{id_docente}'"
+        cur.execute(sql)
+        datos = cur.fetchall()
+        cur.close()
+        return datos
+    
+    def consulta_nomina_docente_honorarios(self,id_docente):
+        cur = self.cnn.cursor()
+        sql = f"SELECT * FROM nomina_docente_honorarios where idDocente = '{id_docente}'"
+        cur.execute(sql)
+        datos = cur.fetchall()
+        cur.close()
+        return datos
+    
+    def consulta_nomina_administrativo_base(self,id_administrativo):
+        cur = self.cnn.cursor()
+        sql = f"SELECT * FROM nomina_administrativo_base where id_administrativo = '{id_administrativo}'"
+        cur.execute(sql)
+        datos = cur.fetchall()
+        cur.close()
+        return datos
+    
+    def consulta_nomina_administrativo_honorarios(self,id_administrativo):
+        cur = self.cnn.cursor()
+        sql = f"SELECT * FROM nomina_administrativo_honorarios where id_administrativo = '{id_administrativo}'"
+        cur.execute(sql)
+        datos = cur.fetchall()
+        cur.close()
+        return datos
+
+
+    def consulta_administrativos(self):
+        cur = self.cnn.cursor()
+        cur.execute("SELECT * FROM administrativos")
+        datos = cur.fetchall()
+        cur.close()
+        return datos
+    
+    def inserta_docente(self, nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,tipo_contrato):
+        usuario = self.crear_usuario(nombre, primer_apellido, segundo_apellido)
         contrasenia = self.crear_contrasenia()
         cur = self.cnn.cursor()
-        sql='''INSERT INTO docentes (idDocente, nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,usuario,contrasenia) 
-        VALUES(NULL,'{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')'''.format(nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,usuario,contrasenia)
+        sql = '''INSERT INTO docentes (idDocente, nombre, primer_apellido, segundo_apellido, calle, numero, colonia, municipio, telefono, numero_imss, ine, curp, rfc, usuario, contrasenia, tipo_contrato) 
+        VALUES(NULL, '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')'''.format(nombre, primer_apellido, segundo_apellido, calle, numero, colonia, municipio, telefono, numero_imss, ine, curp, rfc, usuario, contrasenia, tipo_contrato)
         cur.execute(sql)
-        n = cur.rowcount
-        self.cnn.commit()    
+        self.cnn.commit()
+        id_docente = cur.lastrowid
+        if tipo_contrato == "BASE":
+            self.insertar_datos_nomina_docente_base(id_docente)
+        
+        if tipo_contrato == "HONORARIOS":
+            self.insertar_datos_nomina_docente_honorarios(id_docente)
         cur.close()
-        return n 
+        return id_docente
     
+    def insertar_datos_nomina_docente_base(self,id_docente):
+        sueldo = random.randint(10000, 20000)
+        bonificacion = random.randint(1000, 5000)
+        descuento = random.randint(1000, 2000)
+        cur = self.cnn.cursor()
+        sql = f"INSERT INTO nomina_docente_base (sueldo,bonificacion,descuento,idDocente) VALUES({sueldo},{bonificacion},{descuento},{id_docente})"
+        cur.execute(sql)
+        self.cnn.commit()
+        cur.close()
+
+    def insertar_datos_nomina_docente_honorarios(self,id_docente):
+        sueldo_hora = random.randint(30, 40)
+        horas_trabajadas = random.randint(48,72)
+        deducciones = random.randint(50, 100)
+        cur = self.cnn.cursor()
+        sql = f"INSERT INTO nomina_docente_honorarios (sueldo_hora,horas_trabajadas,deducciones,idDocente) VALUES({sueldo_hora},{horas_trabajadas},{deducciones},{id_docente})"
+        cur.execute(sql)
+        self.cnn.commit()
+        cur.close()
+
     def elimina_docente(self,id_docente):
         cur = self.cnn.cursor()
         sql='''DELETE FROM docentes WHERE idDocente = {}'''.format(id_docente)
@@ -241,3 +322,11 @@ class Administrativos:
         passwordx = cur.fetchall()
         cur.close()     
         return passwordx 
+
+    def buscar_administrativo(self, id_administrativo):
+        cur = self.cnn.cursor()
+        sql= "SELECT * FROM administrativos WHERE id_administrativo = {}".format(id_administrativo)
+        cur.execute(sql)
+        datos = cur.fetchone()
+        cur.close()    
+        return datos

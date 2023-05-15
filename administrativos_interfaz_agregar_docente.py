@@ -1,5 +1,5 @@
 
-from PyQt5.QtWidgets import  QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,QSpacerItem,QSizePolicy,QGridLayout,QMessageBox,QWidget, QLineEdit
+from PyQt5.QtWidgets import  QComboBox,QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,QSpacerItem,QSizePolicy,QGridLayout,QMessageBox,QWidget, QLineEdit
 from PyQt5.QtCore import Qt,QRect,QRegExp
 from PyQt5.QtGui import QPalette, QBrush, QColor, QIcon, QRegExpValidator
 
@@ -113,6 +113,15 @@ class InterfaceAgregarDocente(QWidget):
         self.rfc_input = QLineEdit()
         self.validar(regex_rfc,self.rfc_input)
         aplicar_estilo_input(self.rfc_input)
+
+        tipo_docente_label = QLabel("Tipo de contrato")
+        aplicar_estilo_label(tipo_docente_label)
+        # Crear el QComboBox
+        self.tipo_docente_input = QComboBox()
+        # Agregar las opciones al QComboBox
+        self.tipo_docente_input.addItems(["BASE", "HONORARIOS"])
+        # Aplicar estilo al QComboBox
+        self.tipo_docente_input.setStyleSheet("QComboBox { min-height: 35px; border: 3px solid #FF5733; border-radius: 13px; }")
         
         
         #Botón para guardar los datos
@@ -164,7 +173,10 @@ class InterfaceAgregarDocente(QWidget):
         campos_layout.addWidget(self.ine_input, 6, 1)  # fila 5, columna 1
         campos_layout.addWidget(self.curp_input, 6, 2)  # fila 5, columna 2
         campos_layout.addWidget(self.rfc_input, 6, 3)  # fila 5, columna 3
-
+        
+        
+        campos_layout.addWidget(tipo_docente_label, 7, 0)  # fila 5, columna 3
+        campos_layout.addWidget(self.tipo_docente_input, 8, 0)  # fila 5, columna 3
 
         
 
@@ -209,11 +221,11 @@ class InterfaceAgregarDocente(QWidget):
         ine = self.ine_input.text()
         curp = self.curp_input.text()
         rfc = self.rfc_input.text()
-
+        tipo_contrato = self.tipo_docente_input.currentText()
         if(nombre == "" or primer_apellido == "" or segundo_apellido == "" or calle == "" or numero == "" or colonia == "" or municipio == "" or telefono == "" or numero_imss == "" or ine == "" or curp == "" or rfc == ""):
             QMessageBox.critical(self, "Error", "Rellene todos los campos")
             return
-        resultado = administrativos.inserta_docente(nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc)
+        resultado = administrativos.inserta_docente(nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,tipo_contrato)
         if resultado:
             QMessageBox.information(self, "Éxito", "Docente agregado correctamente")
             self.interface_control_docente = administrativos_interfaz_control_docentes.InterfazControlDocentes(self.nombre_sesion)

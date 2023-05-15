@@ -1,6 +1,6 @@
 
 
-from PyQt5.QtWidgets import  QWidget, QMessageBox,QFrame, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTableWidget,QTableWidgetItem,QAbstractItemView,QWidget
+from PyQt5.QtWidgets import  QWidget, QFrame, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTableWidget,QTableWidgetItem,QAbstractItemView,QWidget
 from administrativos_conexion import Administrativos
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QPalette, QBrush, QColor,QIcon
@@ -8,7 +8,6 @@ from PyQt5.QtGui import QPalette, QBrush, QColor,QIcon
 import administrativos_interfaz_documentacion_alumno
 import administrativos_interfaz_inscripcion_alumno
 import administrativos_interfaz_principal
-import administrativos_interfaz_editar_alumno
 import administrativos_interfaz_ver_reporte_alumno
 import administrativos_interfaz_ver_reporte_baja_alumno
 
@@ -45,7 +44,8 @@ class InterfazControlAlumnos(QWidget):
 
         #Cargamos los datos
         self.cargar_datos()
-        
+        self.tablaAlumnos.resizeColumnsToContents()
+       
         #Boton de regreso
         self.btnRegresarMenuAdmin = QPushButton()
         icono_regresar = QIcon('img/flecha-izquierda.png')

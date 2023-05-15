@@ -3,14 +3,11 @@ from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFrame, QApplicati
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QPalette, QBrush, QColor , QIcon
 import sys
-import img
-#3
 import administrativos_interfaz_control_alumnos
 import administrativos_interfaz_control_docentes
 import interfaz_principal
-
-# import administrativos_interfaz_nomina
-# import administrativos_interfaz_eventos
+import administrativos_interfaz_nomina
+import administrativos_interfaz_eventos
 
 class InterfazAdministrativo(QMainWindow):
     nombre_sesion = ""
@@ -118,20 +115,17 @@ class InterfazAdministrativo(QMainWindow):
             
         
     def show_interface_control_docentes(self):
-        pass
         self.interface_control_docentes = administrativos_interfaz_control_docentes.InterfazControlDocentes(self.nombre_sesion)
         self.interface_control_docentes.show()
         self.close()
     def show_interface_nomina(self):
-        pass
-        # self.interface_nomina= InterfazNomina()
-        # self.interface_nomina.show()
-        # self.close()
+        self.interface_nomina= administrativos_interfaz_nomina.InterfazNomina(self.nombre_sesion)
+        self.interface_nomina.show()
+        self.close()
     def show_interface_eventos(self):
-        pass
-        # self.interface_eventos= InterfazEventos()
-        # self.interface_eventos.show()
-        # self.close()
+        self.interface_eventos= administrativos_interfaz_eventos.InterfazEventos()
+        self.interface_eventos.show()
+        self.close()
 def aplicar_estilos(boton,color):
     style = f"""
     QPushButton {{
@@ -153,9 +147,9 @@ def aplicar_estilos(boton,color):
 
 
 
-# if __name__ == '__main__':
-#     app = QApplication(sys.argv)
-#     ui = InterfazAdministrativo()
-#     ui.show()
-#     sys.exit(app.exec_())
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ui = InterfazAdministrativo("Abiu")
+    ui.show()
+    sys.exit(app.exec_())
 

@@ -43,8 +43,7 @@ class loginAdministrativo(QMainWindow):
         fila1 = dato1
         fila2 = dato2
         if dato1 != []:
-            nombre_sesion = str(dato1[0][3]) + " " + \
-                str(dato1[0][4]) + " " + str(dato1[0][5])
+            nombre_sesion = str(dato1[0][1]) + " " + str(dato1[0][2]) 
         if fila1 == fila2:
             if dato1 == [] and dato2 == []:
                 self.ui.contrasena_incorrecta.setText(

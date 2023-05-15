@@ -42,6 +42,7 @@ class InterfazControlDocentes(QWidget):
 
         #Cargamos los datos
         self.cargar_datos()
+        self.tabla_docentes.resizeColumnsToContents()
         
         #Boton de regreso
         self.btnRegresarMenuAdmin = QPushButton()
@@ -75,8 +76,8 @@ class InterfazControlDocentes(QWidget):
         #Cargamos los datos de los docentes de la bd a la tabla
         administrativos = Administrativos() #Nueva conexion
         datos = administrativos.consulta_docentes()
-        self.tabla_docentes.setColumnCount(18) # Creamos las columnas necesarias para todos los datos
-        self.tabla_docentes.setHorizontalHeaderLabels(["Id","Nombre", "Primer apellido","Segundo apellido","Calle","Numero","Colonia","Municipio","Telefono","Numero IMSS","INE","CURP","RFC","Usuario","Contraseña","Documentación","Acción","Acción"])
+        self.tabla_docentes.setColumnCount(19) # Creamos las columnas necesarias para todos los datos
+        self.tabla_docentes.setHorizontalHeaderLabels(["Id","Nombre", "Primer apellido","Segundo apellido","Calle","Numero","Colonia","Municipio","Telefono","Numero IMSS","INE","CURP","RFC","Tipo de contrato","Usuario","Contraseña","Documentación","Acción","Acción"])
         header = self.tabla_docentes.horizontalHeader()
         header.setStretchLastSection(True)
         self.tabla_docentes.setRowCount(len(datos))
@@ -96,6 +97,7 @@ class InterfazControlDocentes(QWidget):
             ine = QTableWidgetItem(fila[10])
             curp = QTableWidgetItem(fila[11])
             rfc = QTableWidgetItem(fila[12])
+            tipo_contrato = QTableWidgetItem(fila[15])
             usuario = QTableWidgetItem(fila[13])
             contrasenia = QTableWidgetItem(fila[14])
 
@@ -112,8 +114,9 @@ class InterfazControlDocentes(QWidget):
             self.tabla_docentes.setItem(i,10,ine)
             self.tabla_docentes.setItem(i,11,curp)
             self.tabla_docentes.setItem(i,12,rfc)
-            self.tabla_docentes.setItem(i,13,usuario)
-            self.tabla_docentes.setItem(i,14,contrasenia)
+            self.tabla_docentes.setItem(i,13,tipo_contrato)
+            self.tabla_docentes.setItem(i,14,usuario)
+            self.tabla_docentes.setItem(i,15,contrasenia)
             
         #Añadimos botones baja, ver documentacion
         for row in range(self.tabla_docentes.rowCount()):
@@ -123,21 +126,21 @@ class InterfazControlDocentes(QWidget):
             btn_documentacion.setIcon(icono_ver)
             btn_documentacion.setObjectName('documentacion_' + str(row))
             btn_documentacion.clicked.connect(self.show_interfaz_documentacion_docente)
-            self.tabla_docentes.setCellWidget(row, 15, btn_documentacion)
+            self.tabla_docentes.setCellWidget(row, 16, btn_documentacion)
             #Editar
             btn_editar = QPushButton()
             icono_editar = QIcon('img/editar.png')
             btn_editar.setIcon(icono_editar)
             btn_editar.setObjectName('documentacion_' + str(row))
             btn_editar.clicked.connect(self.show_interface_editar_docente)
-            self.tabla_docentes.setCellWidget(row, 16, btn_editar)
+            self.tabla_docentes.setCellWidget(row, 17, btn_editar)
             #Borrar
             btn_borrar = QPushButton()
             icono_borrar = QIcon('img/borrar.png')
             btn_borrar.setIcon(icono_borrar)
             btn_borrar.setObjectName('baja_' + str(row))
             btn_borrar.clicked.connect(self.borrar_fila)
-            self.tabla_docentes.setCellWidget(row, 17, btn_borrar)
+            self.tabla_docentes.setCellWidget(row, 18, btn_borrar)
             
     
     def borrar_fila(self):

@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QFrame, QLabel, Q
 from PyQt5.QtCore import Qt,QUrl,QRect
 from PyQt5.QtGui import QDesktopServices,QPalette,QColor,QIcon,QTextCursor,QTextDocument
 from PyQt5.QtPrintSupport import QPrinter
-import rutas,conexion,notas
+import ruta1,ruta2,conexion,notas
 import os
 from PyQt5.QtGui import QTextTableFormat, QTextLength
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
@@ -24,7 +24,7 @@ class LoginWindow(QMainWindow):
         # Diseño del FRAME
         self.frame = QFrame(self)
         self.frame.setGeometry(QRect(0, 0, 1300, 800))
-        self.frame.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/fondof.jpg)")
+        self.frame.setStyleSheet("border-image:url(img/fondof.jpg)")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -43,7 +43,7 @@ class LoginWindow(QMainWindow):
 
         label = QLabel(self.frame)
         label.setFixedSize(200, 200)
-        label.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/usur.png)")
+        label.setStyleSheet("border-image:url(img/usur.png)")
         label.setObjectName("label")
 
 
@@ -140,7 +140,7 @@ class LoginWindow(QMainWindow):
 
         self.label = QLabel(self.frame)
         self.label.setFixedSize(570,570)
-        self.label.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/profesor.png)")
+        self.label.setStyleSheet("border-image:url(img/profesor.png)")
         self.label.setText("")
         self.label.setObjectName("label")
 
@@ -347,7 +347,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -402,7 +402,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -454,7 +454,7 @@ class LoginWindow(QMainWindow):
                 self.tabla.setItem(fila, columna, item)
                 
                 nota_item = QTableWidgetItem()
-                nota_icon = QIcon("Proyecto-Control-Escolar-PLF/img/ver.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
+                nota_icon = QIcon("img/ver.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
                 nota_item.setData(Qt.DecorationRole, nota_icon)
                 self.tabla.setItem(fila, 4, nota_item)                            
 
@@ -478,7 +478,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -551,7 +551,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -590,12 +590,12 @@ class LoginWindow(QMainWindow):
 
 
                 nota_item = QTableWidgetItem()
-                nota_icon = QIcon("Proyecto-Control-Escolar-PLF/img/nota.png")
+                nota_icon = QIcon("img/nota.png")
                 nota_item.setData(Qt.DecorationRole, nota_icon)
                 self.tabla.setItem(fila, 1, nota_item)
 
                 nota_item = QTableWidgetItem()
-                nota_icon = QIcon("Proyecto-Control-Escolar-PLF/img/ver.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
+                nota_icon = QIcon("img/ver.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
                 nota_item.setData(Qt.DecorationRole, nota_icon)
                 self.tabla.setItem(fila, 2, nota_item)
 
@@ -627,7 +627,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -716,7 +716,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(self.texto_tutorias,alignment=Qt.AlignCenter)
         layout_horizontal.addWidget(boton_regresar, alignment=Qt.AlignRight | Qt.AlignVCenter) # Alinear el botón a la derecha y centrarlo verticalmente
@@ -750,7 +750,80 @@ class LoginWindow(QMainWindow):
 
 
     def mostrar_mapas(self):
-        dialogo = rutas.mapa(self)
+        # Crear los botones
+        self.boton_grup1 = QPushButton("Viaje 1 (Oaxaca-Veracruz)", self)
+        self.boton_grup2 = QPushButton("Viaje 2 (Oaxaca-Cancun)", self)
+
+
+        estilo_botones = """QPushButton {font: 18pt "SimSun";color: #000000;background-color: #78BDE7;border-radius: 50px;padding: 10px;margin: 10px;} QPushButton:hover { background-color: #3b83bd;}"""
+
+        self.boton_grup1.setStyleSheet(estilo_botones)
+        self.boton_grup2.setStyleSheet(estilo_botones)
+
+        self.boton_grup1.setFixedSize(1000, 100)
+        self.boton_grup2.setFixedSize(1000, 100)
+
+        # Crear el título de la ventana
+        self.texto_tutorias = QLabel("                        VIAJES")
+        self.texto_tutorias.setAlignment(Qt.AlignCenter)
+        self.texto_tutorias.setStyleSheet("""
+            font: 28pt "MS Shell Dlg 2";
+            color: #FFFFFF;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        """)
+
+        # Crear el layout principal de la ventana
+        layout_principal = QVBoxLayout()
+        layout_principal.addWidget(self.boton_grup1)
+        layout_principal.addWidget(self.boton_grup2)
+        layout_principal.addWidget(self.texto_tutorias)
+        layout_principal.setAlignment(Qt.AlignCenter)
+
+        # Configurar el widget central con el layout principal
+        widget_central = QWidget()
+        widget_central.setLayout(layout_principal)
+        self.setCentralWidget(widget_central)
+
+
+        # Agregar un botón de regresar al layout
+        boton_regresar = QPushButton()
+        boton_regresar.setFixedSize(50,50)
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
+        layout_horizontal = QHBoxLayout()
+        layout_horizontal.addWidget(self.texto_tutorias,alignment=Qt.AlignCenter)
+        layout_horizontal.addWidget(boton_regresar, alignment=Qt.AlignRight | Qt.AlignVCenter) # Alinear el botón a la derecha y centrarlo verticalmente
+
+        # Crear un contenedor para los botones
+        contenedor_botones = QWidget()
+
+
+        layout_botones = QVBoxLayout()
+        layout_botones.addWidget(self.boton_grup1)
+        layout_botones.addWidget(self.boton_grup2)
+        contenedor_botones.setLayout(layout_botones)
+        
+        # Crear el layout principal de la ventana
+        layout_principal = QVBoxLayout()
+        layout_principal.addLayout(layout_horizontal)
+        layout_principal.addWidget(contenedor_botones)
+        layout_principal.setAlignment(Qt.AlignCenter)
+        # Configurar el widget central con el layout principal
+        widget_central = QWidget()
+        widget_central.setLayout(layout_principal)
+        self.setCentralWidget(widget_central)
+
+        boton_regresar.clicked.connect(self.abrir_ventana_tutorias) # Conectar el botón a un slot para validar ingreso
+        self.boton_grup1.clicked.connect(self.mapa1) # Conectar el botón a un slot para validar ingreso
+        self.boton_grup2.clicked.connect(self.mapa2) # Conectar el botón a un slot para validar ingreso
+
+
+    def mapa1(self):
+        dialogo = ruta1.mapa1(self)
+        resultado = dialogo.exec_()
+
+    def mapa2(self):
+        dialogo = ruta2.mapa2(self)
         resultado = dialogo.exec_()
 
 

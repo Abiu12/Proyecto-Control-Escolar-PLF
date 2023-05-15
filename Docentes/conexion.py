@@ -5,11 +5,12 @@ class Conexion_BD:
   #Se le pasa como parametro la base de datos que se va a utilizar
   def establecer_conexion(base):
     cnn = mysql.connector.connect(
-        host='baqafswarxtmfft3blx4-mysql.services.clever-cloud.com',
-        user='ufwcfaejvkr7ueph',
-        password='ptNrg3nIr3FypMPduNWj',
-        database=base
+        host= 'containers-us-west-39.railway.app', 
+        user= 'root',
+        passwd= "NYAmCqezCtHRPuOjzmPK",
+        database=base,
+        port = 6185,
+        auth_plugin='mysql_native_password'
     )
     return cnn
-  
   

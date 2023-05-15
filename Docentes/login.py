@@ -24,7 +24,7 @@ class LoginWindow(QMainWindow):
         # Diseño del FRAME
         self.frame = QFrame(self)
         self.frame.setGeometry(QRect(0, 0, 1300, 800))
-        self.frame.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/fondof.jpg)")
+        self.frame.setStyleSheet("border-image:url(img/fondof.jpg)")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -43,7 +43,7 @@ class LoginWindow(QMainWindow):
 
         label = QLabel(self.frame)
         label.setFixedSize(200, 200)
-        label.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/usur.png)")
+        label.setStyleSheet("border-image:url(img/usur.png)")
         label.setObjectName("label")
 
 
@@ -140,7 +140,7 @@ class LoginWindow(QMainWindow):
 
         self.label = QLabel(self.frame)
         self.label.setFixedSize(570,570)
-        self.label.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/profesor.png)")
+        self.label.setStyleSheet("border-image:url(img/profesor.png)")
         self.label.setText("")
         self.label.setObjectName("label")
 
@@ -203,7 +203,7 @@ class LoginWindow(QMainWindow):
     def inicio_sesion(self):
         self.usuario = self.edit_usuario.text()
         self.contrasena = self.edit_contrasena.text()
-        cnn=conexion.Conexion_BD.establecer_conexion('bd_docentes')
+        cnn=conexion.Conexion_BD.establecer_conexion('railway')
         with cnn.cursor() as cur:
             cur.execute("SELECT * FROM docentes WHERE usuario= %s AND contrasenia = %s", (self.usuario, self.contrasena))
             self.datos = cur.fetchone()
@@ -216,7 +216,7 @@ class LoginWindow(QMainWindow):
 
 #metodo para consultar datos de las asesorias:
     def consulta_datos_asesoria(self):
-     cnn=conexion.Conexion_BD.establecer_conexion('bd_docentes')   
+     cnn=conexion.Conexion_BD.establecer_conexion('railway')   
      with cnn.cursor() as cur:
         cur.execute("SELECT * FROM asesorias WHERE idDocente = %s",[self.datos[0]])
         self.datos_asesorias = cur.fetchall()
@@ -224,7 +224,7 @@ class LoginWindow(QMainWindow):
 
 #metodo para consultar datos de las actividades:
     def consulta_datos_actividad(self):
-        cnn=conexion.Conexion_BD.establecer_conexion('bd_docentes')
+        cnn=conexion.Conexion_BD.establecer_conexion('railway')
         with cnn.cursor() as cur: 
              cur.execute("SELECT * FROM actividades")
              self.datos_actividades = cur.fetchall()
@@ -234,7 +234,7 @@ class LoginWindow(QMainWindow):
 
 #metodo para consultar datos de las clases:
     def consulta_datos_clases(self):
-        cnn=conexion.Conexion_BD.establecer_conexion('bd_docentes')
+        cnn=conexion.Conexion_BD.establecer_conexion('railway')
         with cnn.cursor() as cur: 
              cur.execute("SELECT * FROM materias WHERE id_docente = %s",[self.datos[0]])
              self.datos_clases = cur.fetchall()
@@ -245,7 +245,7 @@ class LoginWindow(QMainWindow):
 
 #metodo para consultar datos de las clases:
     def consulta_datos_reuniones(self):
-        cnn=conexion.Conexion_BD.establecer_conexion('bd_docentes')
+        cnn=conexion.Conexion_BD.establecer_conexion('railway')
         with cnn.cursor() as cur: 
              cur.execute("SELECT * FROM reuniones WHERE idDocente = %s",[self.datos[0]])
              self.datos_reuniones = cur.fetchall()
@@ -254,7 +254,7 @@ class LoginWindow(QMainWindow):
 
 #metodo para consultar datos de los alumnos:
     def consulta_alumnos(self,datos_fila):
-        cnn=conexion.Conexion_BD.establecer_conexion('bd_docentes')
+        cnn=conexion.Conexion_BD.establecer_conexion('railway')
         with cnn.cursor() as cur: 
              cur.execute("SELECT m.*, a.nombre, a.primer_apellido, a.segundo_apellido, a.telefono FROM materias m JOIN alumnos a ON m.id_alumno = a.idAlumno WHERE m.id_docente = %s and m.nombre_materia = %s", (self.datos[0], datos_fila))
              self.datos_alu = cur.fetchall()
@@ -264,7 +264,7 @@ class LoginWindow(QMainWindow):
 
 #metodo para consultar datos de los alumnos:
     def consulta_grupo1(self):
-        cnn=conexion.Conexion_BD.establecer_conexion('bd_docentes')
+        cnn=conexion.Conexion_BD.establecer_conexion('railway')
         with cnn.cursor() as cur: 
             cur.execute("SELECT t.*, a.nombre, a.primer_apellido, a.segundo_apellido, a.telefono FROM tutoria t JOIN alumnos a ON t.idAlumno = a.idAlumno WHERE t.idDocente =" + str(self.datos[0]) + " and t.grupo=1")
             self.datos_grupo1 = cur.fetchall()
@@ -274,7 +274,7 @@ class LoginWindow(QMainWindow):
 
 #metodo para consultar datos de los alumnos:
     def consulta_grupo2(self):
-        cnn=conexion.Conexion_BD.establecer_conexion('bd_docentes')
+        cnn=conexion.Conexion_BD.establecer_conexion('railway')
         with cnn.cursor() as cur: 
             cur.execute("SELECT t.*, a.nombre, a.primer_apellido, a.segundo_apellido, a.telefono FROM tutoria t JOIN alumnos a ON t.idAlumno = a.idAlumno WHERE t.idDocente =" + str(self.datos[0]) + " and t.grupo=2")
             self.datos_grupo2 = cur.fetchall()
@@ -347,7 +347,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -402,7 +402,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -426,7 +426,7 @@ class LoginWindow(QMainWindow):
 
         self.tabla = QTableWidget()
         self.tabla.setColumnCount(5) # Número de columnas en la tabla
-        self.tabla.setHorizontalHeaderLabels(["materia", "Horario", "Salon", "Semestre","Alumnos inscritos"]) # Etiquetas de las columnas
+        self.tabla.setHorizontalHeaderLabels(["materia", "Horario", "Salon", "Semestre","Ver"]) # Etiquetas de las columnas
        
 
        # Crear un diccionario para almacenar los datos de las materias
@@ -454,7 +454,7 @@ class LoginWindow(QMainWindow):
                 self.tabla.setItem(fila, columna, item)
                 
                 nota_item = QTableWidgetItem()
-                nota_icon = QIcon("Proyecto-Control-Escolar-PLF/img/ver.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
+                nota_icon = QIcon("img/ver.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
                 nota_item.setData(Qt.DecorationRole, nota_icon)
                 self.tabla.setItem(fila, 4, nota_item)                            
 
@@ -478,7 +478,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -551,7 +551,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -590,12 +590,12 @@ class LoginWindow(QMainWindow):
 
 
                 nota_item = QTableWidgetItem()
-                nota_icon = QIcon("Proyecto-Control-Escolar-PLF/img/nota.png")
+                nota_icon = QIcon("img/nota.png")
                 nota_item.setData(Qt.DecorationRole, nota_icon)
                 self.tabla.setItem(fila, 1, nota_item)
 
                 nota_item = QTableWidgetItem()
-                nota_icon = QIcon("Proyecto-Control-Escolar-PLF/img/ver.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
+                nota_icon = QIcon("img/ver.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
                 nota_item.setData(Qt.DecorationRole, nota_icon)
                 self.tabla.setItem(fila, 2, nota_item)
 
@@ -627,7 +627,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -716,7 +716,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(self.texto_tutorias,alignment=Qt.AlignCenter)
         layout_horizontal.addWidget(boton_regresar, alignment=Qt.AlignRight | Qt.AlignVCenter) # Alinear el botón a la derecha y centrarlo verticalmente
@@ -789,7 +789,7 @@ class LoginWindow(QMainWindow):
         # Agregar un botón de regresar al layout
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(Proyecto-Control-Escolar-PLF/img/anterior.png)")
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(self.texto_tutorias,alignment=Qt.AlignCenter)
         layout_horizontal.addWidget(boton_regresar, alignment=Qt.AlignRight | Qt.AlignVCenter) # Alinear el botón a la derecha y centrarlo verticalmente

@@ -316,3 +316,6 @@ def aplicar_estilo_volver(boton,color):
     boton.setPalette(palette)
     # Cambiar estilo del cursor al pasar sobre el botón
     boton.setCursor(Qt.PointingHandCursor)
+
+
+   

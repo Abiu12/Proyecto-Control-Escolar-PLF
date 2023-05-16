@@ -8,17 +8,23 @@ import string
 class Administrativos:
 
     def __init__(self):
+        # self.cnn = mysql.connector.connect(
+        #     host= "containers-us-west-39.railway.app",  
+        #     user= "root",
+        #     passwd= "NYAmCqezCtHRPuOjzmPK",
+        #     database= "railway",
+        #     port = 6185,
+        #     auth_plugin='mysql_native_password'
+        #     )
+
         self.cnn = mysql.connector.connect(
-            host= "containers-us-west-39.railway.app",  
+            host= "localhost",  
             user= "root",
-            passwd= "NYAmCqezCtHRPuOjzmPK",
-            database= "railway",
-            port = 6185,
+            passwd= "elchidoabiu10",
+            database= "bd_control",
             auth_plugin='mysql_native_password'
             )
         
-
-
     def __str__(self):
         datos=self.consulta_alumnos()
         aux=""
@@ -236,11 +242,11 @@ class Administrativos:
         cur.close()    
         return datos
 
-    def editar_docente(self,nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,idDocente):
+    def editar_docente(self,nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,tipo_contrato,idDocente):
         cur = self.cnn.cursor()
         sql='''UPDATE docentes SET nombre='{}', primer_apellido='{}', segundo_apellido='{}',
         calle='{}',numero='{}',colonia='{}',municipio='{}',telefono='{}',numero_imss='{}',ine='{}',
-        curp='{}',rfc='{}' WHERE idDocente={}'''.format(nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,int(idDocente))
+        curp='{}',rfc='{}',tipo_contrato = '{}' WHERE idDocente={}'''.format(nombre,primer_apellido,segundo_apellido,calle,numero,colonia,municipio,telefono,numero_imss,ine,curp,rfc,tipo_contrato,int(idDocente))
         cur.execute(sql)
         n=cur.rowcount
         self.cnn.commit()    
@@ -330,3 +336,15 @@ class Administrativos:
         datos = cur.fetchone()
         cur.close()    
         return datos
+    
+        # Buscar actividades complementarias de un alumno
+    def buscar_actividades_de_la_u(self):
+        cur = self.cnn.cursor()
+        sql = "SELECT nombre,descripcion,hora,fecha,ubicacion,categoria,costo,estado,imagen FROM eventos;"
+        cur.execute(sql)
+        usersx = cur.fetchall()
+        cur.close()
+        print("busque correctamente los eventos")
+        return usersx
+    
+    

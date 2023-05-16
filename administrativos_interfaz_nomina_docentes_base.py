@@ -81,37 +81,29 @@ class InterfazNominaDocentesBase(QWidget):
             segundo_apellido.setTextAlignment(Qt.AlignCenter)
             
             datos_nomina_docente_base = administrativos.consulta_nomina_docente_base(int(fila[0]))
-            self.tabla_docentes_base.setItem(i,0,id)
-            self.tabla_docentes_base.setItem(i,1, QTableWidgetItem("DOCENTE"))
-            self.tabla_docentes_base.setItem(i,2,nombre)
-            self.tabla_docentes_base.setItem(i,3,primer_apellido)
-            self.tabla_docentes_base.setItem(i,4,segundo_apellido)
+            if (datos_nomina_docente_base !=[]):
+                self.tabla_docentes_base.setItem(i,0,id)
+                self.tabla_docentes_base.setItem(i,1, QTableWidgetItem("DOCENTE"))
+                self.tabla_docentes_base.setItem(i,2,nombre)
+                self.tabla_docentes_base.setItem(i,3,primer_apellido)
+                self.tabla_docentes_base.setItem(i,4,segundo_apellido)
+                sueldo = QTableWidgetItem(f"${datos_nomina_docente_base[0][1]}.00")
+                sueldo.setTextAlignment(Qt.AlignCenter)
+                bonificacion = QTableWidgetItem(f"${datos_nomina_docente_base[0][2]}.00")
+                bonificacion.setTextAlignment(Qt.AlignCenter)
+                descuento = QTableWidgetItem(f"${datos_nomina_docente_base[0][3]}.00")
+                descuento.setTextAlignment(Qt.AlignCenter)
+                total = int(datos_nomina_docente_base[0][1]) + int(datos_nomina_docente_base[0][2]) - int(datos_nomina_docente_base[0][3])
+                total_widget = QTableWidgetItem(f"${str(total)}.00")
+                total_widget.setTextAlignment(Qt.AlignCenter)
+                self.tabla_docentes_base.setItem(i,5,sueldo)
+                self.tabla_docentes_base.setItem(i,6,bonificacion)
+                self.tabla_docentes_base.setItem(i,7, descuento)            
+                self.tabla_docentes_base.setItem(i,8,total_widget)
+            else:
+                QMessageBox.information(self, "Aviso", "Sin nomina registrada, verifique datos")
+                
 
-            sueldo = QTableWidgetItem(f"${datos_nomina_docente_base[0][1]}.00")
-            sueldo.setTextAlignment(Qt.AlignCenter)
-            bonificacion = QTableWidgetItem(f"${datos_nomina_docente_base[0][2]}.00")
-            bonificacion.setTextAlignment(Qt.AlignCenter)
-            descuento = QTableWidgetItem(f"${datos_nomina_docente_base[0][3]}.00")
-            descuento.setTextAlignment(Qt.AlignCenter)
-            total = int(datos_nomina_docente_base[0][1]) + int(datos_nomina_docente_base[0][2]) - int(datos_nomina_docente_base[0][3])
-            total_widget = QTableWidgetItem(f"${str(total)}.00")
-            total_widget.setTextAlignment(Qt.AlignCenter)
-
-            self.tabla_docentes_base.setItem(i,5,sueldo)
-            self.tabla_docentes_base.setItem(i,6,bonificacion)
-            self.tabla_docentes_base.setItem(i,7, descuento)
-            
-            self.tabla_docentes_base.setItem(i,8,total_widget)
-            
-        # #Añadimos botones baja, ver documentacion
-        # for row in range(self.tabla_trabajadores.rowCount()):
-        #     #Documentación
-        #     btn_nomina= QPushButton()
-        #     icono_ver = QIcon('img/presupuesto.png')
-        #     btn_nomina.setIcon(icono_ver)
-        #     btn_nomina.setObjectName('documentacion_' + str(row))
-        #     btn_nomina.clicked.connect(self.show_interfaz_calcular_nomina)
-        #     self.tabla_trabajadores.setCellWidget(row, 7, btn_nomina)
 
     def show_interface_nomina(self):
         self.interface_nomina = administrativos_interfaz_nomina.InterfazNomina(self.nombre_sesion)

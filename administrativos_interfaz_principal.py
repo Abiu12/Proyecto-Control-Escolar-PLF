@@ -122,8 +122,8 @@ class InterfazAdministrativo(QMainWindow):
         self.interface_nomina= administrativos_interfaz_nomina.InterfazNomina(self.nombre_sesion)
         self.interface_nomina.show()
         self.close()
-    def show_interface_eventos(self):
-        self.interface_eventos= administrativos_interfaz_eventos.InterfazEventos()
+    def show_interface_eventos(self): #Poner interfaz
+        self.interface_eventos= administrativos_interfaz_eventos.ActividadesDeLaU(self.nombre_sesion)
         self.interface_eventos.show()
         self.close()
 def aplicar_estilos(boton,color):

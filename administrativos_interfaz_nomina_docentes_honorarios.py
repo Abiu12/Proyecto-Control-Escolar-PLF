@@ -81,16 +81,22 @@ class InterfazNominaDocentesHonorarios(QWidget):
             segundo_apellido.setTextAlignment(Qt.AlignCenter)
             
             datos_nomina_docentes_honorarios = administrativos.consulta_nomina_docente_honorarios(int(fila[0]))
-            self.tabla_docentes_honorarios.setItem(i,0,id)
-            self.tabla_docentes_honorarios.setItem(i,1, QTableWidgetItem("DOCENTES"))
-            self.tabla_docentes_honorarios.setItem(i,2,nombre)
-            self.tabla_docentes_honorarios.setItem(i,3,primer_apellido)
-            self.tabla_docentes_honorarios.setItem(i,4,segundo_apellido)
-            self.tabla_docentes_honorarios.setItem(i,5,QTableWidgetItem(f"${datos_nomina_docentes_honorarios[0][1]}.00"))
-            self.tabla_docentes_honorarios.setItem(i,6,QTableWidgetItem(f"{datos_nomina_docentes_honorarios[0][2]}.00"))
-            self.tabla_docentes_honorarios.setItem(i,7,QTableWidgetItem(f"${datos_nomina_docentes_honorarios[0][3]}.00"))
-            total = int(datos_nomina_docentes_honorarios[0][1]) * int(datos_nomina_docentes_honorarios[0][2]) - int(datos_nomina_docentes_honorarios[0][3])
-            self.tabla_docentes_honorarios.setItem(i,8,QTableWidgetItem(f"${str(total)}.00"))
+            
+            if (datos_nomina_docentes_honorarios !=[]):
+                self.tabla_docentes_honorarios.setItem(i,0,id)
+                self.tabla_docentes_honorarios.setItem(i,1, QTableWidgetItem("DOCENTES"))
+                self.tabla_docentes_honorarios.setItem(i,2,nombre)
+                self.tabla_docentes_honorarios.setItem(i,3,primer_apellido)
+                self.tabla_docentes_honorarios.setItem(i,4,segundo_apellido)
+                self.tabla_docentes_honorarios.setItem(i,5,QTableWidgetItem(f"${datos_nomina_docentes_honorarios[0][1]}.00"))
+                self.tabla_docentes_honorarios.setItem(i,6,QTableWidgetItem(f"{datos_nomina_docentes_honorarios[0][2]}.00"))
+                self.tabla_docentes_honorarios.setItem(i,7,QTableWidgetItem(f"${datos_nomina_docentes_honorarios[0][3]}.00"))
+                total = int(datos_nomina_docentes_honorarios[0][1]) * int(datos_nomina_docentes_honorarios[0][2]) - int(datos_nomina_docentes_honorarios[0][3])
+                total_widget = QTableWidgetItem(f"${str(total)}.00")
+                total_widget.setTextAlignment(Qt.AlignCenter)
+                self.tabla_docentes_honorarios.setItem(i,8,total_widget)
+            else:
+                QMessageBox.information(self, "Aviso", "Sin nomina registrada, verifique datos")
             
         
 

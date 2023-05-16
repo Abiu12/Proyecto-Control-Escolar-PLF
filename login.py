@@ -4,6 +4,7 @@ from PyQt5.QtGui import QDesktopServices,QPalette,QColor,QIcon,QTextCursor,QText
 from PyQt5.QtPrintSupport import QPrinter
 import ruta1,ruta2,conexion,notas
 import os
+import interfaz_principal
 from PyQt5.QtGui import QTextTableFormat, QTextLength
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from PyQt5.QtCore import pyqtSlot
@@ -23,14 +24,14 @@ class LoginWindow(QMainWindow):
 
         # Diseño del FRAME
         self.frame = QFrame(self)
-        self.frame.setGeometry(QRect(0, 0, 1300, 800))
+        self.frame.setGeometry(QRect(0, 0, 1300, 700))
         self.frame.setStyleSheet("border-image:url(img/fondof.jpg)")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.frame.setObjectName("frame")
 
         self.setWindowTitle("Inicio de sesión")
-        self.setFixedSize(1250, 800)  # Tamaño fijo de la ventana
+        self.setFixedSize(1300, 700)  # Tamaño fijo de la ventana
         self.setCentralWidget(QWidget())  # Widget central de la ventana
         self.centralWidget().setLayout(QVBoxLayout())  # Diseño vertical para el widget central
         self.centralWidget().layout().setAlignment(Qt.AlignCenter)  # Centrar el widget central
@@ -64,6 +65,8 @@ class LoginWindow(QMainWindow):
         label_contrasena.setStyleSheet("QLabel {font: 15pt \"Segoe UI\"; font-weight: bold;}")
 
         frame.layout().addWidget(label_contrasena)
+        
+
 
         self.edit_contrasena = QLineEdit()  # Cambiar a self.edit_contrasena para que sea accesible en todo el objeto
         self.edit_contrasena.setFixedSize(300, 40)
@@ -79,12 +82,20 @@ class LoginWindow(QMainWindow):
         button_ingresar.setStyleSheet("QPushButton {font: 10pt \"Segoe UI\"; background-color: #3498db; color: white; border-radius: 5px; font-weight: bold}"
                                     "QPushButton:hover {background-color: #2980b9;}")
         
+
+                # Agregar un botón de regresar al layout
+        boton_regresar = QPushButton()
+        boton_regresar.setFixedSize(50,50)
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
+        boton_regresar.clicked.connect(self.regresar)  # Conectar el botón a un slot para validar ingreso
+
         
         frame.layout().addWidget(button_ingresar, alignment=Qt.AlignCenter)
 
         label.setAlignment(Qt.AlignCenter)
-        self.centralWidget().layout().addWidget(label, alignment=Qt.AlignCenter)
 
+        self.centralWidget().layout().addWidget(boton_regresar, alignment=Qt.AlignLeft)
+        self.centralWidget().layout().addWidget(label, alignment=Qt.AlignCenter)
 
         # Agregar el marco al widget central
         self.centralWidget().layout().addWidget(frame)
@@ -126,12 +137,6 @@ class LoginWindow(QMainWindow):
         self.boton_cerrarsesion.setStyleSheet("QPushButton {font: 15pt \"SimSun\"; background-color: #78BDE7; border-top-left-radius: 50px; font-weight: bold}" "QPushButton:hover {font: 17pt \"SimSun\"; background-color: #3b83bd; border-top-left-radius: 50px; font-weight: bold}" )
         #Diseño del texto principal
 
-        self.boton_regresarinicio = QPushButton(self)
-        self.boton_regresarinicio.setFixedSize(700, 80)
-        self.boton_regresarinicio.setStyleSheet("QPushButton {font: 15pt \"SimSun\"; background-color: #78BDE7; border-top-left-radius: 50px; font-weight: bold}" "QPushButton:hover {font: 17pt \"SimSun\"; background-color: #3b83bd; border-top-left-radius: 50px; font-weight: bold}" )
-        #Diseño del texto principal
-
-
         self.texto_principal = QLabel(self)
         self.texto_principal.setFixedSize(1600,71)
         self.texto_principal.setStyleSheet("font: bold 24pt \"Segoe UI\";")
@@ -151,8 +156,6 @@ class LoginWindow(QMainWindow):
         self.boton_clases.raise_()
         self.boton_tutorias.raise_()
         self.boton_cerrarsesion.raise_()
-        self.boton_regresarinicio.raise_()
-
 
         #Aqui se le da una función al boton, que será
         self.boton_asesorias.clicked.connect(self.abrir_ventana_asesorias)
@@ -161,7 +164,6 @@ class LoginWindow(QMainWindow):
         self.boton_reuniones.clicked.connect(self.abrir_ventana_reuniones)
         self.boton_tutorias.clicked.connect(self.abrir_ventana_tutorias)
         self.boton_cerrarsesion.clicked.connect(self.cerrar_sesion)
-        self.boton_regresarinicio.clicked.connect(self.regresar_inicio)
 
         _translate = QApplication.translate
         self.boton_clases.setText(_translate("Form", "Clases"))
@@ -170,7 +172,6 @@ class LoginWindow(QMainWindow):
         self.boton_actividades.setText(_translate("Form", "Actividades universidad"))
         self.boton_reuniones.setText(_translate("Form", "Reuniones académicas"))
         self.boton_cerrarsesion.setText(_translate("Form", "Cerrar sesión"))
-        self.boton_regresarinicio.setText(_translate("Form", "menu principal"))
         self.texto_principal.setText(_translate("Form", "              ¡Bienvenido al sistema "+ self.datos[1]+ " " +self.datos[2]+'!'))
 
 
@@ -184,7 +185,6 @@ class LoginWindow(QMainWindow):
         layout.addWidget(self.boton_clases,7,2,alignment=Qt.AlignCenter)
         layout.addWidget(self.boton_reuniones,8,2,alignment=Qt.AlignCenter)
         layout.addWidget(self.boton_cerrarsesion,9,2,alignment=Qt.AlignCenter)
-        layout.addWidget(self.boton_regresarinicio,10,2,alignment=Qt.AlignCenter)
         layout.addWidget(self.texto_principal,1,0,alignment=Qt.AlignCenter)
         
         
@@ -299,8 +299,6 @@ class LoginWindow(QMainWindow):
     def abrir_ventana_tutorias(self):
         self.mostrar_datos_tutorias()
 
-    def regresar_inicio (self):
-        self.mostrar_regresar_inicio()
     
     def abrir_grupo (self):
         self.consulta_grupo1()
@@ -348,6 +346,7 @@ class LoginWindow(QMainWindow):
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
         boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
+
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -947,7 +946,9 @@ class LoginWindow(QMainWindow):
         self.inicio()
 
 
-    def mostrar_regresar_inicio(self):
+    def regresar(self):
+        self.interface_login_administrativo= interfaz_principal.InterfazPrincipal()
+        self.interface_login_administrativo.show()
         self.close()
 
 

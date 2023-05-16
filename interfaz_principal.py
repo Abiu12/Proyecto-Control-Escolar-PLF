@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QPalette, QBrush, QColor, QIcon
 import sys
 import img
+import login
 # 3
 import main_login_administrativo
 
@@ -91,7 +92,10 @@ class InterfazPrincipal(QMainWindow):
         self.interface_login_administrativo.show()
         self.close()
 
-  
+    def show_interface_login_docente(self):
+        self.interface_login_administrativo= login.LoginWindow()
+        self.interface_login_administrativo.show()
+        self.close()
 
 
 def aplicar_estilos(boton, color):

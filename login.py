@@ -4,6 +4,7 @@ from PyQt5.QtGui import QDesktopServices,QPalette,QColor,QIcon,QTextCursor,QText
 from PyQt5.QtPrintSupport import QPrinter
 import ruta1,ruta2,conexion,notas
 import os
+import interfaz_principal
 from PyQt5.QtGui import QTextTableFormat, QTextLength
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from PyQt5.QtCore import pyqtSlot
@@ -64,6 +65,8 @@ class LoginWindow(QMainWindow):
         label_contrasena.setStyleSheet("QLabel {font: 15pt \"Segoe UI\"; font-weight: bold;}")
 
         frame.layout().addWidget(label_contrasena)
+        
+
 
         self.edit_contrasena = QLineEdit()  # Cambiar a self.edit_contrasena para que sea accesible en todo el objeto
         self.edit_contrasena.setFixedSize(300, 40)
@@ -79,12 +82,20 @@ class LoginWindow(QMainWindow):
         button_ingresar.setStyleSheet("QPushButton {font: 10pt \"Segoe UI\"; background-color: #3498db; color: white; border-radius: 5px; font-weight: bold}"
                                     "QPushButton:hover {background-color: #2980b9;}")
         
+
+                # Agregar un botón de regresar al layout
+        boton_regresar = QPushButton()
+        boton_regresar.setFixedSize(50,50)
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
+        boton_regresar.clicked.connect(self.regresar)  # Conectar el botón a un slot para validar ingreso
+
         
         frame.layout().addWidget(button_ingresar, alignment=Qt.AlignCenter)
 
         label.setAlignment(Qt.AlignCenter)
-        self.centralWidget().layout().addWidget(label, alignment=Qt.AlignCenter)
 
+        self.centralWidget().layout().addWidget(boton_regresar, alignment=Qt.AlignLeft)
+        self.centralWidget().layout().addWidget(label, alignment=Qt.AlignCenter)
 
         # Agregar el marco al widget central
         self.centralWidget().layout().addWidget(frame)
@@ -335,6 +346,7 @@ class LoginWindow(QMainWindow):
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
         boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
+
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -932,6 +944,12 @@ class LoginWindow(QMainWindow):
 
     def cerrar_sesion(self):
         self.inicio()
+
+
+    def regresar(self):
+        self.interface_login_administrativo= interfaz_principal.InterfazPrincipal()
+        self.interface_login_administrativo.show()
+        self.close()
 
 
 if __name__ == "__main__":

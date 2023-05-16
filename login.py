@@ -23,14 +23,14 @@ class LoginWindow(QMainWindow):
 
         # Diseño del FRAME
         self.frame = QFrame(self)
-        self.frame.setGeometry(QRect(0, 0, 1300, 800))
+        self.frame.setGeometry(QRect(0, 0, 1300, 700))
         self.frame.setStyleSheet("border-image:url(img/fondof.jpg)")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.frame.setObjectName("frame")
 
         self.setWindowTitle("Inicio de sesión")
-        self.setFixedSize(1250, 800)  # Tamaño fijo de la ventana
+        self.setFixedSize(1300, 700)  # Tamaño fijo de la ventana
         self.setCentralWidget(QWidget())  # Widget central de la ventana
         self.centralWidget().setLayout(QVBoxLayout())  # Diseño vertical para el widget central
         self.centralWidget().layout().setAlignment(Qt.AlignCenter)  # Centrar el widget central
@@ -126,12 +126,6 @@ class LoginWindow(QMainWindow):
         self.boton_cerrarsesion.setStyleSheet("QPushButton {font: 15pt \"SimSun\"; background-color: #78BDE7; border-top-left-radius: 50px; font-weight: bold}" "QPushButton:hover {font: 17pt \"SimSun\"; background-color: #3b83bd; border-top-left-radius: 50px; font-weight: bold}" )
         #Diseño del texto principal
 
-        self.boton_regresarinicio = QPushButton(self)
-        self.boton_regresarinicio.setFixedSize(700, 80)
-        self.boton_regresarinicio.setStyleSheet("QPushButton {font: 15pt \"SimSun\"; background-color: #78BDE7; border-top-left-radius: 50px; font-weight: bold}" "QPushButton:hover {font: 17pt \"SimSun\"; background-color: #3b83bd; border-top-left-radius: 50px; font-weight: bold}" )
-        #Diseño del texto principal
-
-
         self.texto_principal = QLabel(self)
         self.texto_principal.setFixedSize(1600,71)
         self.texto_principal.setStyleSheet("font: bold 24pt \"Segoe UI\";")
@@ -151,8 +145,6 @@ class LoginWindow(QMainWindow):
         self.boton_clases.raise_()
         self.boton_tutorias.raise_()
         self.boton_cerrarsesion.raise_()
-        self.boton_regresarinicio.raise_()
-
 
         #Aqui se le da una función al boton, que será
         self.boton_asesorias.clicked.connect(self.abrir_ventana_asesorias)
@@ -161,7 +153,6 @@ class LoginWindow(QMainWindow):
         self.boton_reuniones.clicked.connect(self.abrir_ventana_reuniones)
         self.boton_tutorias.clicked.connect(self.abrir_ventana_tutorias)
         self.boton_cerrarsesion.clicked.connect(self.cerrar_sesion)
-        self.boton_regresarinicio.clicked.connect(self.regresar_inicio)
 
         _translate = QApplication.translate
         self.boton_clases.setText(_translate("Form", "Clases"))
@@ -170,7 +161,6 @@ class LoginWindow(QMainWindow):
         self.boton_actividades.setText(_translate("Form", "Actividades universidad"))
         self.boton_reuniones.setText(_translate("Form", "Reuniones académicas"))
         self.boton_cerrarsesion.setText(_translate("Form", "Cerrar sesión"))
-        self.boton_regresarinicio.setText(_translate("Form", "menu principal"))
         self.texto_principal.setText(_translate("Form", "              ¡Bienvenido al sistema "+ self.datos[1]+ " " +self.datos[2]+'!'))
 
 
@@ -184,7 +174,6 @@ class LoginWindow(QMainWindow):
         layout.addWidget(self.boton_clases,7,2,alignment=Qt.AlignCenter)
         layout.addWidget(self.boton_reuniones,8,2,alignment=Qt.AlignCenter)
         layout.addWidget(self.boton_cerrarsesion,9,2,alignment=Qt.AlignCenter)
-        layout.addWidget(self.boton_regresarinicio,10,2,alignment=Qt.AlignCenter)
         layout.addWidget(self.texto_principal,1,0,alignment=Qt.AlignCenter)
         
         
@@ -299,8 +288,6 @@ class LoginWindow(QMainWindow):
     def abrir_ventana_tutorias(self):
         self.mostrar_datos_tutorias()
 
-    def regresar_inicio (self):
-        self.mostrar_regresar_inicio()
     
     def abrir_grupo (self):
         self.consulta_grupo1()
@@ -945,10 +932,6 @@ class LoginWindow(QMainWindow):
 
     def cerrar_sesion(self):
         self.inicio()
-
-
-    def mostrar_regresar_inicio(self):
-        self.close()
 
 
 if __name__ == "__main__":

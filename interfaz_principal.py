@@ -84,9 +84,6 @@ class InterfazPrincipal(QMainWindow):
     def show_interface_login_alumno(self):
         pass
 
-    def show_interface_login_docente(self):
-        pass
-
     def show_interface_login_administrativo(self):
         self.interface_login_administrativo= main_login_administrativo.loginAdministrativo()
         self.interface_login_administrativo.show()

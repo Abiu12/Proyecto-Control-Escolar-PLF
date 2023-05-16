@@ -9,11 +9,11 @@ class Administrativos:
 
     def __init__(self):
         self.cnn = mysql.connector.connect(
-            host= "localhost",  #"containers-us-west-202.railway.app", 
-            user= "root", #"root",
-            passwd= "elchidoabiu10", #"XzLlfajzeTmUzaafbQue",
-            database= "bd_control",#"railway",
-            #port = 7565,
+            host= "containers-us-west-39.railway.app",  
+            user= "root",
+            passwd= "NYAmCqezCtHRPuOjzmPK",
+            database= "railway",
+            port = 6185,
             auth_plugin='mysql_native_password'
             )
         

@@ -82,7 +82,7 @@ class InterfazNominaDocentesHonorarios(QWidget):
             
             datos_nomina_docentes_honorarios = administrativos.consulta_nomina_docente_honorarios(int(fila[0]))
             self.tabla_docentes_honorarios.setItem(i,0,id)
-            self.tabla_docentes_honorarios.setItem(i,1, QTableWidgetItem("ADMINISTRATIVO"))
+            self.tabla_docentes_honorarios.setItem(i,1, QTableWidgetItem("DOCENTES"))
             self.tabla_docentes_honorarios.setItem(i,2,nombre)
             self.tabla_docentes_honorarios.setItem(i,3,primer_apellido)
             self.tabla_docentes_honorarios.setItem(i,4,segundo_apellido)

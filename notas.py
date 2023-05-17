@@ -1,10 +1,20 @@
-
+from PyQt5.QtWidgets import QFrame
 from PyQt5.QtWidgets import QVBoxLayout,QPushButton, QDialog, QTextEdit
+from PyQt5.QtCore import Qt,QUrl,QRect
 class NotasDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
+
+
+        self.frame = QFrame(self)
+        self.frame.setGeometry(QRect(0, 0, 1300, 800))
+        self.frame.setStyleSheet("border-image:url(img/fondof.jpg)")
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
+        self.frame.setObjectName("frame")
+
         self.setWindowTitle("Agregar reporte de la reunión")
-        self.resize(300, 150)
+        self.resize(700, 500)
 
         # Crear un QLineEdit para ingresar la nota
         self.nota_edit = QTextEdit()

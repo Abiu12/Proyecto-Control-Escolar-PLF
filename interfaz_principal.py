@@ -3,10 +3,10 @@ from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFrame, QApplicati
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QPalette, QBrush, QColor
 import sys
-import login
 # 3
 import main_login_administrativo
 import main_login_alumnos
+import login_docente
 
 
 class InterfazPrincipal(QMainWindow):
@@ -91,8 +91,8 @@ class InterfazPrincipal(QMainWindow):
         self.close()
 
     def show_interface_login_docente(self):
-        self.interface_login_administrativo= login.LoginWindow()
-        self.interface_login_administrativo.show()
+        self.interface_login_docente= login_docente.LoginWindow()
+        self.interface_login_docente.show()
         self.close()
 
 

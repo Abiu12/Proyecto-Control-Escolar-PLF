@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from PyQt5.QtCore import pyqtSlot
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+import interfaz_principal
 
 
 #VENTANA PRUEBA DE INICIO DE SESIÓN:
@@ -53,7 +54,7 @@ class LoginWindow(QMainWindow):
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
         boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
-
+        boton_regresar.clicked.connect(self.interfazPrincipal) 
 
         # Crear etiquetas, campos de texto y botón
         label_usuario = QLabel("Usuario")
@@ -86,6 +87,7 @@ class LoginWindow(QMainWindow):
         button_ingresar.setFixedSize(300, 50)
         button_ingresar.setStyleSheet("QPushButton {font: 10pt \"Segoe UI\"; background-color: #3498db; color: white; border-radius: 5px; font-weight: bold}"
                                     "QPushButton:hover {background-color: #2980b9;}")
+        
         
         
         frame.layout().addWidget(button_ingresar, alignment=Qt.AlignCenter)
@@ -1042,6 +1044,13 @@ class LoginWindow(QMainWindow):
 
     def mostrar_regresar_inicio(self):
         self.close()
+
+    def interfazPrincipal(self):
+        self.interfazp= interfaz_principal.InterfazPrincipal()
+        self.interfazp.show()
+        self.close()
+
+
 
 
 

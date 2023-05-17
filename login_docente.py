@@ -4,11 +4,9 @@ from PyQt5.QtGui import QDesktopServices,QPalette,QColor,QIcon,QTextCursor,QText
 from PyQt5.QtPrintSupport import QPrinter
 import ruta1,ruta2,conexion_docente,notas
 import os
-from PyQt5.QtGui import QTextTableFormat, QTextLength
+from PyQt5.QtGui import QTextTableFormat
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from PyQt5.QtCore import pyqtSlot
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
 import interfaz_principal
 
 

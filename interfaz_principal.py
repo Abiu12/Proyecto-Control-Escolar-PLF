@@ -1,9 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFrame, QApplication, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QFrame, QApplication
 from PyQt5.QtCore import Qt, QRect
-from PyQt5.QtGui import QPalette, QBrush, QColor, QIcon
+from PyQt5.QtGui import QPalette, QBrush, QColor
 import sys
-import img
 import login
 # 3
 import main_login_administrativo

@@ -147,9 +147,9 @@ def aplicar_estilos(boton,color):
 
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ui = InterfazAdministrativo("Abiu")
-    ui.show()
-    sys.exit(app.exec_())
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     ui = InterfazAdministrativo("Abiu")
+#     ui.show()
+#     sys.exit(app.exec_())
 

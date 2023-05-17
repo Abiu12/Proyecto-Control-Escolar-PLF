@@ -48,6 +48,12 @@ class LoginWindow(QMainWindow):
         label.setStyleSheet("border-image:url(img/usur.png)")
         label.setObjectName("label")
 
+    
+        # Agregar un botón de regresar al layout
+        boton_regresar = QPushButton()
+        boton_regresar.setFixedSize(50,50)
+        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
+
 
         # Crear etiquetas, campos de texto y botón
         label_usuario = QLabel("Usuario")
@@ -85,6 +91,7 @@ class LoginWindow(QMainWindow):
         frame.layout().addWidget(button_ingresar, alignment=Qt.AlignCenter)
 
         label.setAlignment(Qt.AlignCenter)
+        self.centralWidget().layout().addWidget(boton_regresar, alignment=Qt.AlignRight)
         self.centralWidget().layout().addWidget(label, alignment=Qt.AlignCenter)
 
 

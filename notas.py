@@ -1,6 +1,5 @@
-from PyQt5.QtWidgets import QFrame
-from PyQt5.QtWidgets import QVBoxLayout,QPushButton, QDialog, QTextEdit
-from PyQt5.QtCore import Qt,QUrl,QRect
+from PyQt5.QtWidgets import QFrame,QVBoxLayout,QPushButton, QDialog, QTextEdit
+from PyQt5.QtCore import QRect
 class NotasDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)

@@ -4,10 +4,13 @@ from PyQt5.QtGui import QDesktopServices,QPalette,QColor,QIcon,QTextCursor,QText
 from PyQt5.QtPrintSupport import QPrinter
 import ruta1,ruta2,conexion,notas
 import os
-import interfaz_principal
 from PyQt5.QtGui import QTextTableFormat, QTextLength
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from PyQt5.QtCore import pyqtSlot
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+
+
 
 
 #VENTANA PRUEBA DE INICIO DE SESIÓN:
@@ -24,14 +27,14 @@ class LoginWindow(QMainWindow):
 
         # Diseño del FRAME
         self.frame = QFrame(self)
-        self.frame.setGeometry(QRect(0, 0, 1300, 700))
+        self.frame.setGeometry(QRect(0, 0, 1300, 800))
         self.frame.setStyleSheet("border-image:url(img/fondof.jpg)")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.frame.setObjectName("frame")
 
         self.setWindowTitle("Inicio de sesión")
-        self.setFixedSize(1300, 700)  # Tamaño fijo de la ventana
+        self.setFixedSize(1250, 800)  # Tamaño fijo de la ventana
         self.setCentralWidget(QWidget())  # Widget central de la ventana
         self.centralWidget().setLayout(QVBoxLayout())  # Diseño vertical para el widget central
         self.centralWidget().layout().setAlignment(Qt.AlignCenter)  # Centrar el widget central
@@ -65,8 +68,6 @@ class LoginWindow(QMainWindow):
         label_contrasena.setStyleSheet("QLabel {font: 15pt \"Segoe UI\"; font-weight: bold;}")
 
         frame.layout().addWidget(label_contrasena)
-        
-
 
         self.edit_contrasena = QLineEdit()  # Cambiar a self.edit_contrasena para que sea accesible en todo el objeto
         self.edit_contrasena.setFixedSize(300, 40)
@@ -82,20 +83,12 @@ class LoginWindow(QMainWindow):
         button_ingresar.setStyleSheet("QPushButton {font: 10pt \"Segoe UI\"; background-color: #3498db; color: white; border-radius: 5px; font-weight: bold}"
                                     "QPushButton:hover {background-color: #2980b9;}")
         
-
-                # Agregar un botón de regresar al layout
-        boton_regresar = QPushButton()
-        boton_regresar.setFixedSize(50,50)
-        boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
-        boton_regresar.clicked.connect(self.regresar)  # Conectar el botón a un slot para validar ingreso
-
         
         frame.layout().addWidget(button_ingresar, alignment=Qt.AlignCenter)
 
         label.setAlignment(Qt.AlignCenter)
-
-        self.centralWidget().layout().addWidget(boton_regresar, alignment=Qt.AlignLeft)
         self.centralWidget().layout().addWidget(label, alignment=Qt.AlignCenter)
+
 
         # Agregar el marco al widget central
         self.centralWidget().layout().addWidget(frame)
@@ -137,6 +130,12 @@ class LoginWindow(QMainWindow):
         self.boton_cerrarsesion.setStyleSheet("QPushButton {font: 15pt \"SimSun\"; background-color: #78BDE7; border-top-left-radius: 50px; font-weight: bold}" "QPushButton:hover {font: 17pt \"SimSun\"; background-color: #3b83bd; border-top-left-radius: 50px; font-weight: bold}" )
         #Diseño del texto principal
 
+        self.boton_regresarinicio = QPushButton(self)
+        self.boton_regresarinicio.setFixedSize(700, 80)
+        self.boton_regresarinicio.setStyleSheet("QPushButton {font: 15pt \"SimSun\"; background-color: #78BDE7; border-top-left-radius: 50px; font-weight: bold}" "QPushButton:hover {font: 17pt \"SimSun\"; background-color: #3b83bd; border-top-left-radius: 50px; font-weight: bold}" )
+        #Diseño del texto principal
+
+
         self.texto_principal = QLabel(self)
         self.texto_principal.setFixedSize(1600,71)
         self.texto_principal.setStyleSheet("font: bold 24pt \"Segoe UI\";")
@@ -156,6 +155,8 @@ class LoginWindow(QMainWindow):
         self.boton_clases.raise_()
         self.boton_tutorias.raise_()
         self.boton_cerrarsesion.raise_()
+        self.boton_regresarinicio.raise_()
+
 
         #Aqui se le da una función al boton, que será
         self.boton_asesorias.clicked.connect(self.abrir_ventana_asesorias)
@@ -164,6 +165,7 @@ class LoginWindow(QMainWindow):
         self.boton_reuniones.clicked.connect(self.abrir_ventana_reuniones)
         self.boton_tutorias.clicked.connect(self.abrir_ventana_tutorias)
         self.boton_cerrarsesion.clicked.connect(self.cerrar_sesion)
+        self.boton_regresarinicio.clicked.connect(self.regresar_inicio)
 
         _translate = QApplication.translate
         self.boton_clases.setText(_translate("Form", "Clases"))
@@ -172,6 +174,7 @@ class LoginWindow(QMainWindow):
         self.boton_actividades.setText(_translate("Form", "Actividades universidad"))
         self.boton_reuniones.setText(_translate("Form", "Reuniones académicas"))
         self.boton_cerrarsesion.setText(_translate("Form", "Cerrar sesión"))
+        self.boton_regresarinicio.setText(_translate("Form", "menu principal"))
         self.texto_principal.setText(_translate("Form", "              ¡Bienvenido al sistema "+ self.datos[1]+ " " +self.datos[2]+'!'))
 
 
@@ -185,6 +188,7 @@ class LoginWindow(QMainWindow):
         layout.addWidget(self.boton_clases,7,2,alignment=Qt.AlignCenter)
         layout.addWidget(self.boton_reuniones,8,2,alignment=Qt.AlignCenter)
         layout.addWidget(self.boton_cerrarsesion,9,2,alignment=Qt.AlignCenter)
+        layout.addWidget(self.boton_regresarinicio,10,2,alignment=Qt.AlignCenter)
         layout.addWidget(self.texto_principal,1,0,alignment=Qt.AlignCenter)
         
         
@@ -299,6 +303,8 @@ class LoginWindow(QMainWindow):
     def abrir_ventana_tutorias(self):
         self.mostrar_datos_tutorias()
 
+    def regresar_inicio (self):
+        self.mostrar_regresar_inicio()
     
     def abrir_grupo (self):
         self.consulta_grupo1()
@@ -346,7 +352,6 @@ class LoginWindow(QMainWindow):
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
         boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
-
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
@@ -511,6 +516,34 @@ class LoginWindow(QMainWindow):
                 self.consulta_alumnos(prueba)
 
 
+    @pyqtSlot(int, int)
+    def fila_seleccionada_reuniones(self, fila, columna):
+                datos_fila = []
+                for c in range(self.tabla.columnCount()):
+                    item = self.tabla.item(fila, c)
+                    if item is not None:
+                        datos_fila.append(item.text())
+                    else:
+                        datos_fila.append("")
+                prueba=datos_fila[0]
+                self.mostrar_dialogo_notas(item,prueba,columna)
+
+
+    @pyqtSlot(int, int)
+    def fila_ver(self, fila, columna):
+                datos_fila = []
+                for c in range(self.tabla.columnCount()):
+                    item = self.tabla.item(fila, c)
+                    if item is not None:
+                        datos_fila.append(item.text())
+                    else:
+                        datos_fila.append("")
+                prueba=datos_fila[0]
+                self.obtener_notas(item,prueba,columna)
+                
+
+
+
 
     def mostrar_lista_estudiantes(self):
 
@@ -579,7 +612,7 @@ class LoginWindow(QMainWindow):
         self.tabla.setHorizontalHeaderLabels(["Fecha", "Generar reporte","Visualizar reporte"]) # Etiquetas de las columnas
 
        
-
+        
         # Agregar filas a la tabla con los datos obtenidos de la base de datos
         for fila, datos in enumerate(self.datos_reuniones):
             self.tabla.insertRow(fila)
@@ -598,12 +631,11 @@ class LoginWindow(QMainWindow):
                 nota_item.setData(Qt.DecorationRole, nota_icon)
                 self.tabla.setItem(fila, 2, nota_item)
 
+
                 # Centrar el icono en la columna
         self.tabla.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
         self.tabla.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
         self.tabla.horizontalHeader().setDefaultAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-
-        self.tabla.itemClicked.connect(self.mostrar_dialogo_notas)
 
         # Cambiar color de los encabezados
         header = self.tabla.horizontalHeader()
@@ -644,30 +676,91 @@ class LoginWindow(QMainWindow):
         self.setCentralWidget(widget_central)
 
         boton_regresar.clicked.connect(self.menu_principal_docentes) # Conectar el botón a un slot para validar ingreso
+        self.tabla.cellClicked.connect(self.fila_seleccionada_reuniones)
+        self.tabla.cellClicked.connect(self.fila_ver)
 
 
-    def mostrar_dialogo_notas(self, item):
-                # Obtener la fila y columna del elemento clickeado
-                fila = item.row()
-                columna = item.column()
 
-                # Verificar que se hizo clic en el icono de la nota
-                if columna == 1:
-                    # Crear una nueva instancia de NotasDialog y mostrarla
-                    dialogo = notas.NotasDialog(self)
-                    resultado = dialogo.exec_()
 
-                    # Procesar el resultado de la ventana secundaria
-                    if resultado == QDialog.Accepted:
-                        # Obtener la nota ingresada por el usuario
-                        nota = dialogo.nota_edit.toPlainText()
 
-                        # Guardar la nota en un archivo de texto
-                        with open("nota"+str(self.datos[0])+str(self.datos_reuniones[0])+".pdf", "w") as f:
-                            f.write(nota)
+    def mostrar_dialogo_notas(self, item, prueba,colu):
+        # Verificar que se hizo clic en el icono de la nota
+        if colu == 1:
+            # Crear una nueva instancia de NotasDialog y mostrarla
+            dialogo = notas.NotasDialog(self)
+            resultado = dialogo.exec_()
 
-                        # Cerrar la ventana
-                        dialogo.accept()
+            # Procesar el resultado de la ventana secundaria
+            if resultado == QDialog.Accepted:
+                # Obtener la nota ingresada por el usuario
+                nota = dialogo.nota_edit.toPlainText()
+
+
+                cnn=conexion.Conexion_BD.establecer_conexion('railway')
+                with cnn.cursor() as cur: 
+                    # Check if a record with the specified idDocente and fecha exists
+                    cur.execute("SELECT COUNT(*) FROM reuniones WHERE idDocente = %s AND fecha = %s", (self.datos[0], prueba))
+                    row_count = cur.fetchone()[0]
+
+                    if row_count > 0:
+                        # Update the existing record with the new value of notas
+                        cur.execute("UPDATE reuniones SET notas = %s WHERE idDocente = %s AND fecha = %s", (nota, self.datos[0], prueba))
+                        cnn.commit()
+                    cnn.close()
+                dialogo.accept()
+
+
+
+    def obtener_notas(self, item, fecha,colu):
+      
+      if colu == 2:
+        notas = ""
+        # Realiza la consulta en la base de datos y obtiene las notas correspondientes a la fila
+        cnn = conexion.Conexion_BD.establecer_conexion('railway')
+        with cnn.cursor() as cur:
+            cur.execute("SELECT notas FROM reuniones WHERE idDocente = %s AND fecha = %s", (self.datos[0], fecha))
+            result = cur.fetchone()
+        cnn.close()
+
+        printer = QPrinter()
+        printer.setPageSize(QPrinter.A4)
+        printer.setOutputFormat(QPrinter.PdfFormat)
+        printer.setOutputFileName("reporte.pdf")
+
+        documento = QTextDocument()
+        font = documento.defaultFont()
+        font.setPointSize(12)
+        documento.setDefaultFont(font)
+
+
+        cursor = QTextCursor(documento)
+        encabezado = QTextTableFormat()
+        encabezado.setAlignment(Qt.AlignCenter)
+        encabezado.setCellPadding(4)
+        encabezado.setCellSpacing(0)
+        encabezado.setBorder(0)
+
+        
+        encabezado.setWidth(1600) 
+
+
+        # Insertar filas y columnas en la tabla del encabezado
+        tabla_encabezado = cursor.insertTable(1, 1, encabezado)
+        cursor = tabla_encabezado.cellAt(0, 0).firstCursorPosition()
+        cursor.insertHtml("<h1>Reporte generado reunión</h1>")
+        cursor.insertHtml("<br></br>")
+        cursor.insertHtml("<br></br>")
+
+    
+        notas = str(result) 
+        notas = notas.strip("('',)")  
+        cursor.insertText(notas)
+
+        documento.print_(printer)
+
+        file_path = os.path.abspath("reporte.pdf")
+        QDesktopServices.openUrl(QUrl.fromLocalFile(file_path))
+
 
 
 
@@ -946,9 +1039,7 @@ class LoginWindow(QMainWindow):
         self.inicio()
 
 
-    def regresar(self):
-        self.interface_login_administrativo= interfaz_principal.InterfazPrincipal()
-        self.interface_login_administrativo.show()
+    def mostrar_regresar_inicio(self):
         self.close()
 
 

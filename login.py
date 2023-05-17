@@ -7,8 +7,8 @@ import os
 from PyQt5.QtGui import QTextTableFormat, QTextLength
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from PyQt5.QtCore import pyqtSlot
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
+# from reportlab.lib.pagesizes import letter
+# from reportlab.pdfgen import canvas
 
 
 

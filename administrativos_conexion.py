@@ -8,22 +8,22 @@ import string
 class Administrativos:
 
     def __init__(self):
-        # self.cnn = mysql.connector.connect(
-        #     host= "containers-us-west-39.railway.app",  
-        #     user= "root",
-        #     passwd= "NYAmCqezCtHRPuOjzmPK",
-        #     database= "railway",
-        #     port = 6185,
-        #     auth_plugin='mysql_native_password'
-        #     )
-
         self.cnn = mysql.connector.connect(
-            host= "localhost",  
+            host= "containers-us-west-39.railway.app",  
             user= "root",
-            passwd= "elchidoabiu10",
-            database= "bd_control",
+            passwd= "NYAmCqezCtHRPuOjzmPK",
+            database= "railway",
+            port = 6185,
             auth_plugin='mysql_native_password'
             )
+
+        # self.cnn = mysql.connector.connect(
+        #     host= "localhost",  
+        #     user= "root",
+        #     passwd= "elchidoabiu10",
+        #     database= "bd_control",
+        #     auth_plugin='mysql_native_password'
+        #     )
         
     def __str__(self):
         datos=self.consulta_alumnos()

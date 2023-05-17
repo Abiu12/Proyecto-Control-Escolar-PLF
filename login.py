@@ -257,12 +257,16 @@ class LoginWindow(QMainWindow):
         cnn.close()
 
 #metodo para consultar datos de los alumnos:
-    def consulta_alumnos(self,datos_fila):
+    def consulta_alumnos(self,colu,datos_fila):
         cnn=conexion.Conexion_BD.establecer_conexion('railway')
         with cnn.cursor() as cur: 
              cur.execute("SELECT m.*, a.nombre, a.primer_apellido, a.segundo_apellido, a.telefono FROM materias m JOIN alumnos a ON m.id_alumno = a.idAlumno WHERE m.id_docente = %s and m.nombre_materia = %s", (self.datos[0], datos_fila))
              self.datos_alu = cur.fetchall()
-             self.mostrar_lista_estudiantes()
+
+             if(colu==4):
+                self.mostrar_lista_estudiantes()
+             if(colu==5):
+                 self.imprimir_datos()
         cnn.close()
 
 
@@ -429,8 +433,8 @@ class LoginWindow(QMainWindow):
     def mostrar_datos_clases(self):
 
         self.tabla = QTableWidget()
-        self.tabla.setColumnCount(5) # Número de columnas en la tabla
-        self.tabla.setHorizontalHeaderLabels(["materia", "Horario", "Salon", "Semestre","Ver"]) # Etiquetas de las columnas
+        self.tabla.setColumnCount(6) # Número de columnas en la tabla
+        self.tabla.setHorizontalHeaderLabels(["materia", "Horario", "Salon", "Semestre","Ver lista","Generar lista"]) # Etiquetas de las columnas
        
 
        # Crear un diccionario para almacenar los datos de las materias
@@ -448,8 +452,6 @@ class LoginWindow(QMainWindow):
                 continue
             
             self.datos_materias[materia]={}
-
-            print(self.datos_materias)
             
             self.tabla.insertRow(fila)
             for columna, dato in enumerate(datos):
@@ -460,8 +462,12 @@ class LoginWindow(QMainWindow):
                 nota_item = QTableWidgetItem()
                 nota_icon = QIcon("img/ver.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
                 nota_item.setData(Qt.DecorationRole, nota_icon)
-                self.tabla.setItem(fila, 4, nota_item)                            
+                self.tabla.setItem(fila, 4, nota_item)           
 
+                pdf_item = QTableWidgetItem()
+                pdf_icon = QIcon("img/pdf.png") # Reemplaza "ruta/a/tu/icono/nota.png" con la ruta a tu imagen de la nota
+                pdf_item.setData(Qt.DecorationRole, pdf_icon)
+                self.tabla.setItem(fila, 5, pdf_item)
 
         # Cambiar color de los encabezados
         header = self.tabla.horizontalHeader()
@@ -483,11 +489,12 @@ class LoginWindow(QMainWindow):
         boton_regresar = QPushButton()
         boton_regresar.setFixedSize(50,50)
         boton_regresar.setStyleSheet("border-image:url(img/anterior.png)")
+
+
         # Crear un QHBoxLayout para el texto principal y el botón de regresar
         layout_horizontal = QHBoxLayout()
         layout_horizontal.addWidget(texto_principal,alignment=Qt.AlignCenter)
         layout_horizontal.addWidget(boton_regresar, alignment=Qt.AlignRight | Qt.AlignVCenter) # Alinear el botón a la derecha y centrarlo verticalmente
-
 
         # Crear un QVBoxLayout para el QHBoxLayout y la tabla
         layout_vertical = QVBoxLayout()
@@ -513,7 +520,7 @@ class LoginWindow(QMainWindow):
                     else:
                         datos_fila.append("")
                 prueba=datos_fila[0]
-                self.consulta_alumnos(prueba)
+                self.consulta_alumnos(columna,prueba)
 
 
     @pyqtSlot(int, int)
@@ -957,8 +964,6 @@ class LoginWindow(QMainWindow):
         # Insertar filas y columnas en la tabla del encabezado
         tabla_encabezado = cursor.insertTable(1, 1, encabezado)
         cursor = tabla_encabezado.cellAt(0, 0).firstCursorPosition()
-        cursor.insertHtml("<h1>Grupo1</h1>")
-        cursor.insertHtml("<br></br>")
         cursor.insertHtml("<h2>Lista de alumnos</h2>")
         cursor.insertHtml("<br></br>")
 
@@ -1041,6 +1046,120 @@ class LoginWindow(QMainWindow):
 
     def mostrar_regresar_inicio(self):
         self.close()
+
+
+
+    def imprimir_datos(self):
+        self.tabla= QTableWidget()
+        self.tabla.setColumnCount(4) # Número de columnas en la tabla
+        self.dato_alumno =[(dat[7], dat[8], dat[9], dat[10])for dat in self.datos_alu]
+ 
+        # Agregar filas a la tabla con los datos obtenidos de la base de datos
+        for fila, datos in enumerate(self.dato_alumno):
+            self.tabla.insertRow(fila)
+            for columna, dato in enumerate(datos):
+                item = QTableWidgetItem(str(dato))
+                self.tabla.setItem(fila, columna, item)    
+
+        printer = QPrinter()
+        printer.setPageSize(QPrinter.A4)
+        printer.setOutputFormat(QPrinter.PdfFormat)
+        printer.setOutputFileName("lista_de_alumnos.pdf")
+
+        documento = QTextDocument()
+        font = documento.defaultFont()
+        font.setPointSize(12)
+        documento.setDefaultFont(font)
+
+
+        cursor = QTextCursor(documento)
+        encabezado = QTextTableFormat()
+        encabezado.setAlignment(Qt.AlignCenter)
+        encabezado.setCellPadding(4)
+        encabezado.setCellSpacing(0)
+        encabezado.setBorder(0)
+
+        
+        encabezado.setWidth(1600) 
+
+
+        # Insertar filas y columnas en la tabla del encabezado
+        tabla_encabezado = cursor.insertTable(1, 1, encabezado)
+        cursor = tabla_encabezado.cellAt(0, 0).firstCursorPosition()
+        cursor.insertHtml("<h2>Lista de alumnos </h2>")
+        cursor.insertHtml("<br></br>")
+
+        
+
+        for row in range(self.tabla.model().rowCount()):
+            cursor.insertText("\n")
+            for col in range(self.tabla.model().columnCount()):
+                cursor.insertText(str(self.tabla.item(row, col).text()))
+                cursor.insertText(" ")
+                cursor.movePosition(QTextCursor.NextCell)
+
+        documento.print_(printer)
+
+        file_path = os.path.abspath("lista_de_alumnos.pdf")
+        QDesktopServices.openUrl(QUrl.fromLocalFile(file_path))
+
+
+    def abrirgrup2(self):
+        self.tablaalu = QTableWidget()
+        self.tablaalu.setColumnCount(4) # Número de columnas en la tabla
+        self.dato_alumno = [(dat[3], dat[4], dat[5], dat[6]) for dat in self.datos_grupo2]
+ 
+
+        # Agregar filas a la tabla con los datos obtenidos de la base de datos
+        for fila, datos in enumerate(self.dato_alumno):
+            self.tablaalu.insertRow(fila)
+            for columna, dato in enumerate(datos):
+                item = QTableWidgetItem(str(dato))
+                self.tablaalu.setItem(fila, columna, item)    
+
+        printer = QPrinter()
+        printer.setPageSize(QPrinter.A4)
+        printer.setOutputFormat(QPrinter.PdfFormat)
+        printer.setOutputFileName("tabla.pdf")
+
+        documento = QTextDocument()
+        font = documento.defaultFont()
+        font.setPointSize(12)
+        documento.setDefaultFont(font)
+
+
+        cursor = QTextCursor(documento)
+        encabezado = QTextTableFormat()
+        encabezado.setAlignment(Qt.AlignCenter)
+        encabezado.setCellPadding(4)
+        encabezado.setCellSpacing(0)
+        encabezado.setBorder(0)
+
+        
+        encabezado.setWidth(1600) 
+
+
+        # Insertar filas y columnas en la tabla del encabezado
+        tabla_encabezado = cursor.insertTable(1, 1, encabezado)
+        cursor = tabla_encabezado.cellAt(0, 0).firstCursorPosition()
+        cursor.insertHtml("<h1>Grupo2</h1>")
+        cursor.insertHtml("<br></br>")
+        cursor.insertHtml("<h2>Lista de alumnos</h2>")
+        cursor.insertHtml("<br></br>")
+
+        
+
+        for row in range(self.tablaalu.model().rowCount()):
+            cursor.insertText("\n")
+            for col in range(self.tablaalu.model().columnCount()):
+                cursor.insertText(str(self.tablaalu.item(row, col).text()))
+                cursor.insertText(" ")
+                cursor.movePosition(QTextCursor.NextCell)
+
+        documento.print_(printer)
+
+        file_path = os.path.abspath("tabla.pdf")
+        QDesktopServices.openUrl(QUrl.fromLocalFile(file_path))
 
 
 if __name__ == "__main__":

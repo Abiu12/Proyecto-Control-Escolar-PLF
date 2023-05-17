@@ -6,7 +6,7 @@ import sys
 import login
 # 3
 import main_login_administrativo
-
+import main_login_alumnos
 
 
 class InterfazPrincipal(QMainWindow):
@@ -81,7 +81,9 @@ class InterfazPrincipal(QMainWindow):
             "Form", f"                           INICIAR SESIÓN  COMO:      "))
 
     def show_interface_login_alumno(self):
-        pass
+        self.interface_login_alumno = main_login_alumnos.MiApp()
+        self.interface_login_alumno.show()
+        self.close()
 
     def show_interface_login_administrativo(self):
         self.interface_login_administrativo= main_login_administrativo.loginAdministrativo()

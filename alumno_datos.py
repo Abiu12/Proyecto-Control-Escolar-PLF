@@ -66,7 +66,7 @@ class AlumnoDatos(QMainWindow):
         self.centralwidget.setObjectName("centralwidget")
 
         # Conexion a la BD
-        datos = conexion.Registro_datos()
+        datos = conexion_alumno.Registro_datos()
         # Lista de Registros
         dato1 = datos.busca_users("'" + nombre + "'")
         # Tomamos el primer registro

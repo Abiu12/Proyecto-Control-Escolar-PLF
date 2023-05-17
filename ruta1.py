@@ -12,21 +12,23 @@ class mapa1(QDialog):
         veracruz = [19.1738, -96.1342]
 
         # Coordenadas de puntos intermedios
-        punto1 = [17.0656, -96.7259]
-        punto2 = [17.0626, -96.7295]
-        punto3 = [17.0586, -96.7325]
-        punto4 = [17.0506, -96.7365]
-        punto5 = [17.0336, -96.7385]
-        punto6 = [19.0516, -96.9497]
-        punto7 = [19.0859, -96.9493]
-        punto8 = [19.1201, -96.9183]
-        punto9 = [19.1471, -96.8968]
+        oaxaca_centro = [17.0636, -96.7255]
+        Punto1 = [17.0813, -96.5582]
+        Punto2 = [17.1108, -96.3921]
+        Punto3 = [17.1449, -96.2297]
+        Punto4 = [17.1836, -96.0721]
+        Tuxtepec = [18.0858, -96.1297]
+        Punto5 = [18.1597, -96.1894]
+        Punto6 = [18.2352, -96.2516]
+        Punto7 = [18.3123, -96.3164]
+        Punto8 = [18.3911, -96.3840]
+        Veracruz = [19.1738, -96.1342]
 
         # Crea un objeto de mapa centrado en Oaxaca Centro
-        mapa = folium.Map(location=oaxaca_centro, zoom_start=7)
+        mapa = folium.Map(location=oaxaca_centro, zoom_start=10)
 
         # Crea una PolyLine que representa la ruta de Oaxaca a Veracruz
-        ruta = folium.vector_layers.PolyLine(locations=[oaxaca_centro, punto1, punto2, punto3, punto4, punto5, punto6, punto7, punto8, punto9, veracruz], color='blue', weight=5)
+        ruta = folium.vector_layers.PolyLine(locations=[oaxaca_centro,Punto1,Punto2,Punto3,Punto4,Tuxtepec,Punto5,Punto6,Punto7,Punto8,Veracruz], color='blue', weight=5)
 
         # Agrega la PolyLine al mapa
         ruta.add_to(mapa)
